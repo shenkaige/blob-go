@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/assets/css/post.css">
+<link rel="stylesheet" href="/assets/css/post.css"/>
+<script src="/assets/js/showdown.min.js"></script>
 <div class="post-header">
     <h1>{{.Title}}</h1>
     <h2>{{.SubTitle}}</h2>
@@ -9,7 +10,14 @@
 </div>
 
 <div class="post-content">
-    <p>
+    <p id="markdown-output">
         {{.Content}}
     </p>
 </div>
+<script>
+    converter = new showdown.Converter(),
+            text = '{{.Content}}',
+            html = converter.makeHtml(text);
+    var content = document.getElementById('markdown-output');
+    content.innerHTML = html;
+</script>
