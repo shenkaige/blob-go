@@ -1,21 +1,23 @@
-<div class="posts">
-    <h1 class="content-subhead">Recent Posts</h1>
+<link rel="stylesheet" href="/assets/css/index.css">
 
-{{range $post := .SubData}}
-    <section class="post">
-        <header class="post-header">
-            <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="post-avatar"
-                 src="img/common/ericf-avatar.png">
+<div class="indexs">
+    <h1 class="content-subhead">Recent indexs</h1>
 
-            <h2 class="post-title"><a href="/post/{{.ID}}" style="color: #222;">{{.Title}}</a></h2>
+{{range $index := .SubData}}
+    <section class="index">
+        <header class="index-header">
+            <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="index-avatar"
+                 src="/assets/img/tilo-avatar.png">
 
-            <p class="post-meta">
-                By <a class="post-author" href="#">{{.Author}}</a> under <a
-                    class="post-category post-category-js" href="#">{{.Category}}</a>
+            <h2 class="index-title"><a href="/post/{{.ID}}" style="color: #222;">{{.Title}}</a></h2>
+
+            <p class="index-meta">
+                By <a class="index-author" href="#">{{.Author}}</a> under <a
+                    class="category category-js" href="#">{{.Category}}</a>
             </p>
         </header>
 
-        <div class="post-description">
+        <div class="index-description">
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco

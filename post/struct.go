@@ -11,4 +11,5 @@ type PostStruct struct {
 	SubTitle string
 	Author string
 	Category string
+	Content string
 }

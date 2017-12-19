@@ -1,26 +1,15 @@
-<div class="post-detail">
-    <h1 class="content-subhead">POST DETAIL</h1>
+<link rel="stylesheet" href="/assets/css/post.css">
+<div class="post-header">
+    <h1>{{.Title}}</h1>
+    <h2>{{.SubTitle}}</h2>
+    <p class="post-meta">
+        By <a class="post-author" href="#">{{.Author}}</a> under <a
+            class="category category-js" href="#">{{.Category}}</a>
+    </p>
+</div>
 
-    <section class="post">
-        <header class="post-header">
-            <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="post-avatar"
-                 src="img/common/ericf-avatar.png">
-
-            <h2 class="post-title">{{.Title}}</h2>
-
-            <p class="post-meta">
-                By <a class="post-author" href="#">{{.Author}}</a> under <a
-                    class="post-category post-category-js" href="#">{{.Category}}</a>
-            </p>
-        </header>
-
-        <div class="post-description">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            </p>
-        </div>
-    </section>
+<div class="post-content">
+    <p>
+        {{.Content}}
+    </p>
 </div>

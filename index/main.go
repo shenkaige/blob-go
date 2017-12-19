@@ -24,8 +24,8 @@ func GetDatas() *[]interface{} {
 	datas := make([]interface{}, 0)
 	datas = append(datas, post.PostStruct{
 		ID:       1,
-		Title:    "Hello Page",
-		SubTitle: "Welcome to my awesome website",
+		Title:    "THERE'S MEGAN IN TY",
+		SubTitle: "THAT'S TRUE",
 		Author:   "Black Hat",
 		Category: "Megan",
 	})
