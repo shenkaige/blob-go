@@ -7,6 +7,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"github.com/go-xorm/xorm"
 )
 
 func main() {
@@ -18,12 +19,9 @@ func main() {
 	iris.RegisterOnInterrupt(func() {
 		sql.Close()
 	})
+	cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
+	sql.SetDefaultCacher(cacher)
 	sql.Sync2(new(db.PostDb))
-
-	//postdb := db.PostDb{Id: 1}
-	//
-	//sql.Get(&postdb)
-	//log.Println(postdb.Title)
 
 	app.RegisterView(iris.HTML("./templates", ".html").Layout("shared/main.html").Reload(true))
 
