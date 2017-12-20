@@ -9,7 +9,7 @@
             <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="index-avatar"
                  src="/assets/img/tilo-avatar.png">
 
-            <h2 class="index-title"><a href="/post/{{.ID}}" style="color: #222;">{{.Title}}</a></h2>
+            <h2 class="index-title"><a href="/post/{{.Id}}" style="color: #222;">{{.Title}}</a></h2>
 
             <p class="index-meta">
                 By <a class="index-author" href="#">{{.Author}}</a> under <a
@@ -19,10 +19,7 @@
 
         <div class="index-description">
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            {{ printf "%.360s" .Content }}
             </p>
         </div>
     </section>

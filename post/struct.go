@@ -5,11 +5,11 @@ import (
 )
 
 type PostStruct struct {
-	Core core.CoreStruct
-	ID int
-	Title string
+	Core     core.CoreStruct
+	ID       int
+	Title    string
 	SubTitle string
-	Author string
+	Author   string
 	Category string
-	Content string
+	Content  string
 }

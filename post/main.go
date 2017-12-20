@@ -1,38 +1,54 @@
 package post
 
 import (
-	"github.com/kataras/iris/mvc"
 	"../core"
+	"../db"
+	"github.com/go-xorm/xorm"
+	"github.com/kataras/iris/mvc"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type PostController struct {
 	mvc.C
+	Sql *xorm.Engine
 }
 
 func (c *PostController) Get() mvc.Result {
-	return mvc.View{
-		Name: "post.html",
-		Data: PostStruct{
-			Core:     *(core.GetCore()),
-			Title:    "THERE'S MEGAN IN TY",
-			SubTitle: "THAT'S TRUE!",
-			Author:   "Black Hat",
-			Category: "Megan",
-			Content:  "# MEGAN \n\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		},
+	post := db.PostDb{Id: 1}
+	if ok, _ := c.Sql.Get(&post); ok {
+		return mvc.View{
+			Name: "post.html",
+			Data: PostStruct{
+				Core:     *(core.GetCore()),
+				Title:    post.Title,
+				SubTitle: post.SubTitle,
+				Author:   post.Author,
+				Category: post.Category,
+				Content:  post.Content,
+			},
+		}
+	}
+	return mvc.Response{
+		Code: 404,
 	}
 }
 
 func (c *PostController) GetBy(id int) mvc.Result {
-	return mvc.View{
-		Name: "post.html",
-		Data: PostStruct{
-			Core:     *(core.GetCore()),
-			Title:    "THERE'S MEGAN IN TY",
-			SubTitle: "THAT'S TRUE!",
-			Author:   "Black Hat",
-			Category: "Megan",
-			Content:  "# MEGAN \n\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-		},
+	post := db.PostDb{Id: id}
+	if ok, _ := c.Sql.Get(&post); ok {
+		return mvc.View{
+			Name: "post.html",
+			Data: PostStruct{
+				Core:     *(core.GetCore()),
+				Title:    post.Title,
+				SubTitle: post.SubTitle,
+				Author:   post.Author,
+				Category: post.Category,
+				Content:  post.Content,
+			},
+		}
+	}
+	return mvc.Response{
+		Code: 404,
 	}
 }

@@ -1,28 +1,24 @@
 package db
 
 import (
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"github.com/go-xorm/xorm"
+	_ "github.com/mattn/go-sqlite3"
+	"log"
 )
 
-type Db struct {
-	dialect string
-	file string
+type PostDb struct {
+	Id       int
+	Title    string
+	SubTitle string
+	Author   string
+	Category string
+	Content  string
 }
 
-func NewSqlite(file string) *Db {
-	return &Db{
-		dialect: "sqlite3",
-		file: file,
-	}
-}
-
-func (db *Db) Create(dataStruct interface{}) {
-	dbase, err := gorm.Open(db.dialect, db.file)
+func NewDb(file string, dialect string) *xorm.Engine {
+	orm, err := xorm.NewEngine(dialect, file)
 	if err != nil {
-		panic("failed to connect database")
+		log.Println(err)
 	}
-	defer dbase.Close()
-	dbase.AutoMigrate(&dataStruct)
-	dbase.Create(&dataStruct)
+	return orm
 }

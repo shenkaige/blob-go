@@ -1,13 +1,15 @@
 package index
 
 import (
-	"github.com/kataras/iris/mvc"
 	"../core"
-	"../post"
+	"../db"
+	"github.com/go-xorm/xorm"
+	"github.com/kataras/iris/mvc"
 )
 
 type IndexController struct {
 	mvc.C
+	Sql *xorm.Engine
 }
 
 func (c *IndexController) Get() mvc.Result {
@@ -15,19 +17,13 @@ func (c *IndexController) Get() mvc.Result {
 		Name: "index.html",
 		Data: IndexStruct{
 			Core:    *(core.GetCore()),
-			SubData: *GetDatas(),
+			SubData: *GetIndex(c.Sql),
 		},
 	}
 }
 
-func GetDatas() *[]interface{} {
-	datas := make([]interface{}, 0)
-	datas = append(datas, post.PostStruct{
-		ID:       1,
-		Title:    "THERE'S MEGAN IN TY",
-		SubTitle: "THAT'S TRUE",
-		Author:   "Black Hat",
-		Category: "Megan",
-	})
+func GetIndex(sql *xorm.Engine) *[]db.PostDb {
+	var datas []db.PostDb
+	sql.Limit(10).Desc("id").Find(&datas)
 	return &datas
 }
