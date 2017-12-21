@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.sidebar, .footer {
+    font-family: 'Ubuntu', sans-serif;
+}
+
 a {
     text-decoration: none;
     color: rgb(61, 146, 201);
@@ -46,47 +50,13 @@ h3 {
 }
 
 .brand-title {
-    text-transform: uppercase;
     font-weight: 400;
+    text-transform: uppercase;
 }
 
 .brand-tagline {
     font-weight: 300;
     color: rgb(176, 202, 219);
-}
-
-.search-form {
-    padding-top: 5px;
-}
-
-.search-form button {
-    display: inline-block;
-    width: 10%;
-    background: transparent;
-    padding: 0;
-    color: #BBB;
-}
-
-.search-form button:hover,
-.search-form button:focus {
-    background: transparent;
-    color: #FFF;
-}
-
-.search-form input {
-    display: inline-block;
-    width: 60%;
-    max-width: 180px;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgb(176, 202, 219);
-    color: #fff;
-}
-
-.search-form input:hover,
-.search-form input:focus {
-    border: none;
-    border-bottom: 1px solid #fff;
 }
 
 .content-subhead {
@@ -110,6 +80,7 @@ h3 {
 .footer a {
     color: #ccc;
     font-size: 80%;
+    font-weight: 400;
 }
 
 .footer .pure-menu a:hover,
@@ -147,19 +118,19 @@ h3 {
     font-size: 80%;
 }
 
-.category-design {
+.category-green {
     background: #5aba59;
 }
 
-.category-pure {
+.category-blue {
     background: #4d85d1;
 }
 
-.category-yui {
+.category-purple {
     background: #8156a7;
 }
 
-.category-js {
+.category-red {
     background: #df2d4f;
 }
 

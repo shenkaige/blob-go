@@ -1,3 +1,11 @@
+.content-subhead, .index-meta, .index-title {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.index-description {
+    font-family: 'PT Serif', serif;
+}
+
 .index {
     padding-bottom: 2em;
 }
@@ -16,7 +24,7 @@
 }
 
 .index-description {
-    font-family: Georgia, "Cambria", serif;
+    font-weight: 300;
     color: #444;
     line-height: 1.8em;
 }

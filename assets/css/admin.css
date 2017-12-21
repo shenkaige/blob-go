@@ -55,6 +55,11 @@ This is the parent `<div>` that contains the menu and the content area.
     color: #999;
 }
 
+.nav-menu .pure-menu li a:hover,
+.nav-menu .pure-menu li a:focus {
+    background: #333;
+}
+
 #side-menu {
     margin-left: -150px;
     width: 150px;
@@ -66,6 +71,7 @@ This is the parent `<div>` that contains the menu and the content area.
     background: #191818;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    box-shadow: 4px 4px 10px #BBB;
 }
 
 #side-menu a {
