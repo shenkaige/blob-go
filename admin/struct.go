@@ -2,6 +2,6 @@ package admin
 
 import "../core"
 
-type AdminStruct struct {
+type OverviewStruct struct {
 	Core core.CoreStruct
 }

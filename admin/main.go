@@ -14,7 +14,7 @@ type AdminController struct {
 func (c *AdminController) Get() mvc.Result {
 	return mvc.View{
 		Name: "overview.html",
-		Data: AdminStruct{
+		Data: OverviewStruct{
 			Core: *(core.GetCore()),
 		},
 	}
@@ -23,7 +23,7 @@ func (c *AdminController) Get() mvc.Result {
 func (c *AdminController) GetOverview() mvc.Result {
 	return mvc.View{
 		Name: "overview.html",
-		Data: AdminStruct{
+		Data: OverviewStruct{
 			Core: *(core.GetCore()),
 		},
 	}
