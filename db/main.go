@@ -6,19 +6,26 @@ import (
 	"log"
 )
 
-type PostDb struct {
-	Id       int
-	Title    string
-	SubTitle string
-	Author   string
-	Category string
-	Content  string
-}
-
 func NewDb(file string, dialect string) *xorm.Engine {
 	orm, err := xorm.NewEngine(dialect, file)
 	if err != nil {
 		log.Println(err)
 	}
 	return orm
+}
+
+func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
+	post := PostDb{Id: id}
+	if ok, _ := sql.Get(&post); ok {
+		return &post, true
+	}
+	return &PostDb{}, false
+}
+
+func GetOverview(sql *xorm.Engine) (*OverviewDb, bool) {
+	post := new(PostDb)
+	if postCount, err := sql.Count(post); err == nil {
+		return &OverviewDb{int(postCount), 0}, true
+	}
+	return &OverviewDb{}, false
 }

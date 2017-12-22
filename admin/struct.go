@@ -1,7 +1,11 @@
 package admin
 
-import "../core"
+import (
+	"../core"
+	"../db"
+)
 
 type OverviewStruct struct {
-	Core core.CoreStruct
+	Core    core.CoreStruct
+	SubData db.OverviewDb
 }

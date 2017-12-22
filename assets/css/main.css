@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.sidebar, .footer {
+.sidebar *, .footer {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -47,10 +47,6 @@ h3 {
 .brand-title,
 .brand-tagline {
     margin: 0;
-}
-
-.brand-title {
-    font-weight: 400;
     text-transform: uppercase;
 }
 

@@ -14,8 +14,7 @@ type PostController struct {
 }
 
 func (c *PostController) Get() mvc.Result {
-	post := db.PostDb{Id: 1}
-	if ok, _ := c.Sql.Get(&post); ok {
+	if post, ok := db.GetPost(1, c.Sql); ok {
 		return mvc.View{
 			Name: "post.html",
 			Data: PostStruct{
@@ -34,8 +33,7 @@ func (c *PostController) Get() mvc.Result {
 }
 
 func (c *PostController) GetBy(id int) mvc.Result {
-	post := db.PostDb{Id: id}
-	if ok, _ := c.Sql.Get(&post); ok {
+	if post, ok := db.GetPost(id, c.Sql); ok {
 		return mvc.View{
 			Name: "post.html",
 			Data: PostStruct{
