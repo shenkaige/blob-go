@@ -13,17 +13,20 @@ type IndexController struct {
 }
 
 func (c *IndexController) Get() mvc.Result {
+	if index, ok := db.GetIndex(c.Sql); ok {
+		return mvc.View{
+			Name: "index.html",
+			Data: IndexStruct{
+				Core:    *(core.GetCore()),
+				SubData: *index,
+			},
+		}
+	}
 	return mvc.View{
 		Name: "index.html",
 		Data: IndexStruct{
 			Core:    *(core.GetCore()),
-			SubData: *GetIndex(c.Sql),
+			SubData: []db.PostDb{},
 		},
 	}
-}
-
-func GetIndex(sql *xorm.Engine) *[]db.PostDb {
-	var datas []db.PostDb
-	sql.Limit(10).Desc("id").Find(&datas)
-	return &datas
 }

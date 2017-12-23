@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<style>
+    .CodeMirror {
+        height: 300px;
+    }
+</style>
+<form class="pure-form pure-form-aligned" id="edit-form">
+    <fieldset>
+        <legend>Edit your Post</legend>
+
+        <div class="pure-control-group">
+            <label for="title">Title</label>
+            <input id="title" placeholder="Title" value="{{.Title}}">
+        </div>
+
+        <div class="pure-control-group">
+            <label for="sub-title">SubTitle</label>
+            <input id="sub-title" placeholder="SubTitle" value="{{.SubTitle}}">
+        </div>
+        <div class="pure-control-group">
+            <label for="author">Author</label>
+            <input id="author" placeholder="Author" value="{{.Author}}">
+        </div>
+        <div class="pure-control-group">
+            <label for="category">Category</label>
+            <input id="category" placeholder="Category" value="{{.Category}}">
+        </div>
+        <div class="pure-control-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="Password">
+        </div>
+        <label for="content">Content</label>
+        <textarea id="content">{{.Content}}</textarea>
+        <button class="pure-button" type="submit">Post</button>
+    </fieldset>
+</form>
+<script>
+    var mde = new SimpleMDE({element: document.getElementById("content")});
+</script>

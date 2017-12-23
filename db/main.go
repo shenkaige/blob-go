@@ -14,6 +14,14 @@ func NewDb(file string, dialect string) *xorm.Engine {
 	return orm
 }
 
+func GetIndex(sql *xorm.Engine) (*[]PostDb, bool) {
+	var datas []PostDb
+	if err := sql.Limit(10).Desc("id").Find(&datas); err == nil {
+		return &datas, true
+	}
+	return nil, false
+}
+
 func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
 	post := PostDb{Id: id}
 	if ok, _ := sql.Get(&post); ok {
