@@ -2,6 +2,7 @@ package main
 
 import (
 	"./admin"
+	"./core"
 	"./db"
 	"./index"
 	"./post"
@@ -24,11 +25,13 @@ func main() {
 	sql.SetDefaultCacher(cacher)
 	sql.Sync2(new(db.PostDb))
 
-	app.RegisterView(iris.HTML("./templates", ".html").Reload(true))
+	tmpl := iris.HTML("./templates", ".html").Reload(true)
+	tmpl.AddFunc("getCore", core.GetCore)
+	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
-	app.Party("/post").Layout("shared/main.html").Controller("/", new(post.PostController), sql)
-	app.Party("/admin").Layout("shared/admin.html").Controller("/", new(admin.AdminController), sql)
-	app.Party("/").Layout("shared/main.html").Controller("/", new(index.IndexController), sql)
+	app.Layout("shared/main.html").Controller("/post", new(post.PostController), sql)
+	app.Layout("shared/admin.html").Controller("/admin", new(admin.AdminController), sql)
+	app.Layout("shared/main.html").Controller("/", new(index.IndexController), sql)
 
 	app.Run(iris.Addr(":8080"), iris.WithOptimizations)
 }

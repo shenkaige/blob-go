@@ -1,11 +1,11 @@
 package post
 
 import (
-	"../core"
 	"../db"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
 	_ "github.com/mattn/go-sqlite3"
+	"gopkg.in/russross/blackfriday.v2"
 )
 
 type PostController struct {
@@ -18,12 +18,11 @@ func (c *PostController) Get() mvc.Result {
 		return mvc.View{
 			Name: "post.html",
 			Data: PostStruct{
-				Core:     *(core.GetCore()),
 				Title:    post.Title,
 				SubTitle: post.SubTitle,
 				Author:   post.Author,
 				Category: post.Category,
-				Content:  post.Content,
+				Content:  string(blackfriday.Run([]byte(post.Content))),
 			},
 		}
 	}
@@ -37,12 +36,11 @@ func (c *PostController) GetBy(id int) mvc.Result {
 		return mvc.View{
 			Name: "post.html",
 			Data: PostStruct{
-				Core:     *(core.GetCore()),
 				Title:    post.Title,
 				SubTitle: post.SubTitle,
 				Author:   post.Author,
 				Category: post.Category,
-				Content:  post.Content,
+				Content:  string(blackfriday.Run([]byte(post.Content))),
 			},
 		}
 	}

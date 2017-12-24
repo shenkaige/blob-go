@@ -1,7 +1,6 @@
 package index
 
 import (
-	"../core"
 	"../db"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
@@ -17,16 +16,14 @@ func (c *IndexController) Get() mvc.Result {
 		return mvc.View{
 			Name: "index.html",
 			Data: IndexStruct{
-				Core:    *(core.GetCore()),
-				SubData: *index,
+				IndexData: *index,
 			},
 		}
 	}
 	return mvc.View{
 		Name: "index.html",
 		Data: IndexStruct{
-			Core:    *(core.GetCore()),
-			SubData: []db.PostDb{},
+			IndexData: []db.PostDb{},
 		},
 	}
 }
