@@ -5,7 +5,6 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
 	_ "github.com/mattn/go-sqlite3"
-	"gopkg.in/russross/blackfriday.v2"
 )
 
 type PostController struct {
@@ -22,7 +21,7 @@ func (c *PostController) Get() mvc.Result {
 				SubTitle: post.SubTitle,
 				Author:   post.Author,
 				Category: post.Category,
-				Content:  string(blackfriday.Run([]byte(post.Content))),
+				Content:  post.Content,
 			},
 		}
 	}
@@ -40,7 +39,7 @@ func (c *PostController) GetBy(id int) mvc.Result {
 				SubTitle: post.SubTitle,
 				Author:   post.Author,
 				Category: post.Category,
-				Content:  string(blackfriday.Run([]byte(post.Content))),
+				Content:  post.Content,
 			},
 		}
 	}
