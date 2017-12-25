@@ -1,5 +1,10 @@
 package db
 
+type CoreDb struct {
+	Title string
+	SubTitle string
+}
+
 type PostDb struct {
 	Id       int
 	Title    string

@@ -81,3 +81,10 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 		Code: 404,
 	}
 }
+
+func (c *AdminController) GetSetting() mvc.Result {
+		return mvc.View{
+			Name: "admin/setting.html",
+			Data: db.GetCore(c.Sql),
+		}
+}

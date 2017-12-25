@@ -14,9 +14,27 @@ func NewDb(file string, dialect string) *xorm.Engine {
 	return orm
 }
 
+func GetCore(sql *xorm.Engine) CoreDb {
+	var coreData CoreDb
+	if ok, _ := sql.Get(&coreData); ok {
+		return coreData
+	}
+	return CoreDb{}
+}
+
+func GetCoreFunc(sql *xorm.Engine) func() CoreDb {
+	return func() CoreDb {
+		var coreData CoreDb
+		if ok, _ := sql.Get(&coreData); ok {
+			return coreData
+		}
+		return CoreDb{}
+	}
+}
+
 func GetIndex(sql *xorm.Engine) (*[]PostDb, bool) {
 	var datas []PostDb
-	if err := sql.Limit(10).Desc("id").Find(&datas); err == nil {
+	if err := sql.Desc("id").Limit(10).Find(&datas); err == nil {
 		return &datas, true
 	}
 	return nil, false

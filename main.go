@@ -2,7 +2,6 @@ package main
 
 import (
 	"./admin"
-	"./core"
 	"./db"
 	"./index"
 	"./post"
@@ -23,10 +22,12 @@ func main() {
 	})
 	cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
 	sql.SetDefaultCacher(cacher)
+	sql.Sync2(new(db.CoreDb))
 	sql.Sync2(new(db.PostDb))
 
 	tmpl := iris.HTML("./templates", ".html").Reload(true)
-	tmpl.AddFunc("getCore", core.GetCore)
+	getCore := db.GetCoreFunc(sql)
+	tmpl.AddFunc("getCore", getCore)
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
 	app.Layout("shared/main.html").Controller("/post", new(post.PostController), sql)
