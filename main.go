@@ -5,13 +5,17 @@ import (
 	"./db"
 	"./index"
 	"./post"
-	"github.com/go-xorm/xorm"
+	"flag"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"github.com/go-xorm/xorm"
 )
 
 func main() {
+	var devMode = flag.Bool("dev", false, "Enable dev mode")
+	flag.Parse()
+
 	app := iris.New()
 	app.Use(recover.New())
 	app.Use(logger.New())
@@ -25,7 +29,7 @@ func main() {
 	sql.Sync2(new(db.CoreDb))
 	sql.Sync2(new(db.PostDb))
 
-	tmpl := iris.HTML("./templates", ".html").Reload(true)
+	tmpl := iris.HTML("./templates", ".html").Reload(*devMode)
 	getCore := db.GetCoreFunc(sql)
 	tmpl.AddFunc("getCore", getCore)
 	app.RegisterView(tmpl)

@@ -6,11 +6,14 @@ import (
 	"../post"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
+	"github.com/kataras/iris/sessions"
 )
 
 type AdminController struct {
 	mvc.C
-	Sql *xorm.Engine
+	Manager *sessions.Sessions
+	Session *sessions.Session
+	Sql     *xorm.Engine
 }
 
 func (c *AdminController) Get() mvc.Result {
@@ -83,8 +86,8 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 }
 
 func (c *AdminController) GetSetting() mvc.Result {
-		return mvc.View{
-			Name: "admin/setting.html",
-			Data: db.GetCore(c.Sql),
-		}
+	return mvc.View{
+		Name: "admin/setting.html",
+		Data: db.GetCore(c.Sql),
+	}
 }

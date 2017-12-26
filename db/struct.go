@@ -1,12 +1,12 @@
 package db
 
 type CoreDb struct {
-	Title string
+	Title    string
 	SubTitle string
 }
 
 type PostDb struct {
-	Id       int
+	Id       int `xorm:"pk"`
 	Title    string
 	SubTitle string
 	Author   string
