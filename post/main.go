@@ -27,7 +27,8 @@ func (c *PostController) Get() mvc.Result {
 			},
 		}
 	}
-	return mvc.Response{
+	return mvc.View{
+		Name: "httperr/404.html",
 		Code: 404,
 	}
 }
@@ -45,7 +46,8 @@ func (c *PostController) GetBy(id int) mvc.Result {
 			},
 		}
 	}
-	return mvc.Response{
+	return mvc.View{
+		Name: "httperr/404.html",
 		Code: 404,
 	}
 }

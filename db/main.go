@@ -42,7 +42,15 @@ func GetIndex(sql *xorm.Engine) (*[]PostDb, bool) {
 
 func GetIndexByCategory(categ string, sql *xorm.Engine) (*[]PostDb, bool) {
 	var datas []PostDb
-	if err := sql.Desc("id").Limit(10).Find(&datas, &PostDb{Category: categ}); err == nil {
+	if err := sql.Desc("id").Limit(10).Find(&datas, &PostDb{Category: categ}); err == nil && len(datas) != 0 {
+		return &datas, true
+	}
+	return nil, false
+}
+
+func GetIndexByAuthor(autho string, sql *xorm.Engine) (*[]PostDb, bool) {
+	var datas []PostDb
+	if err := sql.Desc("id").Limit(10).Find(&datas, &PostDb{Author: autho}); err == nil && len(datas) != 0 {
 		return &datas, true
 	}
 	return nil, false
@@ -50,7 +58,7 @@ func GetIndexByCategory(categ string, sql *xorm.Engine) (*[]PostDb, bool) {
 
 func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
 	post := PostDb{Id: id}
-	if ok, _ := sql.Get(&post); ok {
+	if ok, _ := sql.Get(&post); ok && post.Title != "" {
 		return &post, true
 	}
 	return &PostDb{}, false

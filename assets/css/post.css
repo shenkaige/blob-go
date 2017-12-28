@@ -1,4 +1,4 @@
-.content-subhead, .index-meta, .post-header {
+.content-subhead, .post-meta, .post-header {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -15,7 +15,6 @@
     max-width: 800px;
     margin: 0 auto 50px;
     line-height: 1.8em;
-    font-family: Georgia, "Cambria", serif;
 }
 
 .post-header {
