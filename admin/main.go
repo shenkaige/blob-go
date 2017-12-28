@@ -7,6 +7,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
+	"html/template"
 )
 
 type AdminController struct {
@@ -76,7 +77,7 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 				SubTitle: pos.SubTitle,
 				Author:   pos.Author,
 				Category: pos.Category,
-				Content:  pos.Content,
+				Content:  template.HTML(pos.Content),
 			},
 		}
 	}

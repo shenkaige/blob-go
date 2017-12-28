@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="/assets/css/post.css"/>
-<script src="/assets/js/markdown.min.js"></script>
 <div class="post-header">
     <h1>{{.Title}}</h1>
     <h2>{{.SubTitle}}</h2>
@@ -10,11 +9,5 @@
 </div>
 
 <div class="post-content">
-    <p id="markdown">
-    {{.Content}}
-    </p>
+{{.Content}}
 </div>
-<script>
-    var ele = document.getElementById("markdown");
-    ele.innerHTML = markdown.toHTML(ele.innerText);
-</script>
