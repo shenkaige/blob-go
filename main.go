@@ -1,19 +1,22 @@
 package main
 
 import (
+	"flag"
+	"strconv"
+
 	"./admin"
 	"./db"
 	"./index"
 	"./post"
-	"flag"
+	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
-	"github.com/go-xorm/xorm"
 )
 
 func main() {
 	var devMode = flag.Bool("dev", false, "Enable dev mode")
+	var port = flag.Int("port", 8080, "the port blob listens")
 	flag.Parse()
 
 	app := iris.New()
@@ -38,5 +41,5 @@ func main() {
 	app.Layout("shared/admin.html").Controller("/admin", new(admin.AdminController), sql)
 	app.Layout("shared/main.html").Controller("/", new(index.IndexController), sql)
 
-	app.Run(iris.Addr(":8080"), iris.WithOptimizations)
+	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
 }
