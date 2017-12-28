@@ -6,6 +6,10 @@
     font-family: 'PT Serif', serif;
 }
 
+.index-title, .index-author, .category {
+    text-transform: uppercase;
+}
+
 .index {
     padding-bottom: 2em;
 }

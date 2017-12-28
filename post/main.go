@@ -41,7 +41,7 @@ func (c *PostController) GetBy(id int) mvc.Result {
 				SubTitle: post.SubTitle,
 				Author:   post.Author,
 				Category: post.Category,
-				Content: template.HTML(string(blackfriday.Run([]byte(post.Content)))),
+				Content:  template.HTML(string(blackfriday.Run([]byte(post.Content)))),
 			},
 		}
 	}

@@ -6,6 +6,10 @@
     font-family: 'PT Serif', serif;
 }
 
+.post-header h1, .post-header h2, .post-author, .category {
+    text-transform: uppercase;
+}
+
 .post-content {
     padding: 0 2em;
     max-width: 800px;
@@ -27,6 +31,7 @@
     font-size: 3em;
     font-weight: 400;
 }
+
 .post-header h2 {
     font-weight: 300;
     color: #ccc;

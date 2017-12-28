@@ -40,6 +40,14 @@ func GetIndex(sql *xorm.Engine) (*[]PostDb, bool) {
 	return nil, false
 }
 
+func GetIndexByCategory(categ string, sql *xorm.Engine) (*[]PostDb, bool) {
+	var datas []PostDb
+	if err := sql.Desc("id").Limit(10).Find(&datas, &PostDb{Category: categ}); err == nil {
+		return &datas, true
+	}
+	return nil, false
+}
+
 func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
 	post := PostDb{Id: id}
 	if ok, _ := sql.Get(&post); ok {

@@ -27,3 +27,20 @@ func (c *IndexController) Get() mvc.Result {
 		},
 	}
 }
+
+func (c *IndexController) GetCategoryBy(categ string) mvc.Result {
+	if index, ok := db.GetIndexByCategory(categ, c.Sql); ok {
+		return mvc.View{
+			Name: "index.html",
+			Data: IndexStruct{
+				IndexData: *index,
+			},
+		}
+	}
+	return mvc.View{
+		Name: "index.html",
+		Data: IndexStruct{
+			IndexData: []db.PostDb{},
+		},
+	}
+}
