@@ -8,9 +8,9 @@ type CoreDb struct {
 
 //UserDb defines the structure of user_db.
 type UserDb struct {
-	Id int `xorm:"pk"`
+	Id       int `xorm:"pk"`
 	Username string
-	Passwd string
+	Passwd   string
 }
 
 //PostDb defines the structure of post_db.

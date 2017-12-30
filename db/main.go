@@ -2,10 +2,10 @@ package db
 
 import (
 	"github.com/go-xorm/xorm"
-	_ "github.com/mattn/go-sqlite3"
-	"log"
 	"github.com/kataras/iris/core/errors"
+	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/sha3"
+	"log"
 )
 
 //NewDb creates a new database with chosen dialect.
@@ -51,7 +51,7 @@ func AuthUser(usernm string, passwd string, sql *xorm.Engine) (bool, error) {
 		}
 		return false, errors.New("user not found")
 	}
-	return false,errors.New("database err")
+	return false, errors.New("database err")
 }
 
 //GetIndex gets index of the first 10 posts.
