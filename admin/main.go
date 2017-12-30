@@ -10,6 +10,7 @@ import (
 	"html/template"
 )
 
+//AdminController is the controller to /admin page.
 type AdminController struct {
 	mvc.C
 	Manager *sessions.Sessions
@@ -17,10 +18,12 @@ type AdminController struct {
 	Sql     *xorm.Engine
 }
 
+//Get is the function when /admin/ is called.
 func (c *AdminController) Get() mvc.Result {
 	return c.GetOverview()
 }
 
+//GetOverview is the function when /admin/overview/ is called.
 func (c *AdminController) GetOverview() mvc.Result {
 	if overv, ok := db.GetOverview(c.Sql); ok {
 		return mvc.View{
@@ -38,6 +41,7 @@ func (c *AdminController) GetOverview() mvc.Result {
 	}
 }
 
+//GetPost is the function when /admin/post/ is called.
 func (c *AdminController) GetPost() mvc.Result {
 	if ind, ok := db.GetIndex(c.Sql); ok {
 		return mvc.View{
@@ -55,6 +59,7 @@ func (c *AdminController) GetPost() mvc.Result {
 	}
 }
 
+//GetPostEdit is the function when /admin/post/edit/ is called.
 func (c *AdminController) GetPostEdit() mvc.Result {
 	return mvc.View{
 		Name: "admin/post_edit.html",
@@ -68,6 +73,7 @@ func (c *AdminController) GetPostEdit() mvc.Result {
 	}
 }
 
+//GetPostEditBy is the function when /admin/post/edit/<id> is called.
 func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 	if pos, ok := db.GetPost(id, c.Sql); ok {
 		return mvc.View{
@@ -86,6 +92,7 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 	}
 }
 
+//GetSetting is the function when /admin/setting/ is called.
 func (c *AdminController) GetSetting() mvc.Result {
 	return mvc.View{
 		Name: "admin/setting.html",

@@ -19,6 +19,10 @@ func main() {
 	var port = flag.Int("port", 8080, "the port blob listens")
 	flag.Parse()
 
+	if *devMode {
+		println("DEV MODE ENABLED. DO NOT USE IT IN PRODUCTION AS IT WILL CAUSE SIGNIFICANT PERFORMANCE LAG.")
+	}
+
 	app := iris.New()
 	app.Use(recover.New())
 	app.Use(logger.New())
@@ -30,6 +34,7 @@ func main() {
 	cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
 	sql.SetDefaultCacher(cacher)
 	sql.Sync2(new(db.CoreDb))
+	sql.Sync2(new(db.UserDb))
 	sql.Sync2(new(db.PostDb))
 
 	tmpl := iris.HTML("./templates", ".html").Reload(*devMode)

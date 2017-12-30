@@ -9,11 +9,13 @@ import (
 	"html/template"
 )
 
+//PostController is the controller to /post page.
 type PostController struct {
 	mvc.C
 	Sql *xorm.Engine
 }
 
+//Get is the function when /post/ is called.
 func (c *PostController) Get() mvc.Result {
 	if post, ok := db.GetPost(1, c.Sql); ok {
 		return mvc.View{
@@ -33,6 +35,7 @@ func (c *PostController) Get() mvc.Result {
 	}
 }
 
+//GetBy is the function when /post/<id> is called.
 func (c *PostController) GetBy(id int) mvc.Result {
 	if post, ok := db.GetPost(id, c.Sql); ok {
 		return mvc.View{
