@@ -12,6 +12,7 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
+	"github.com/kataras/iris/mvc"
 )
 
 func main() {
@@ -42,9 +43,10 @@ func main() {
 	tmpl.AddFunc("getCore", getCore)
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
-	app.Layout("shared/main.html").Controller("/post", new(post.PostController), sql)
-	app.Layout("shared/admin.html").Controller("/admin", new(admin.AdminController), sql)
-	app.Layout("shared/main.html").Controller("/", new(index.IndexController), sql)
+	mvc.New(app.Party("/post").Layout("shared/main.html")).Register(sql).Handle(new(post.PostController))
+	mvc.New(app.Party("/admin/auth").Layout("shared/logres.html")).Register(sql).Handle(new(admin.AuthController))
+	mvc.New(app.Party("/admin").Layout("shared/admin.html")).Register(sql).Handle(new(admin.AdminController))
+	mvc.New(app.Party("/").Layout("shared/main.html")).Register(sql).Handle(new(index.IndexController))
 
 	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
 }

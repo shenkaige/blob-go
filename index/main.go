@@ -8,7 +8,6 @@ import (
 
 //IndexController is the controller to / page.
 type IndexController struct {
-	mvc.C
 	Sql *xorm.Engine
 }
 

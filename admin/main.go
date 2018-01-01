@@ -12,7 +12,6 @@ import (
 
 //AdminController is the controller to /admin page.
 type AdminController struct {
-	mvc.C
 	Manager *sessions.Sessions
 	Session *sessions.Session
 	Sql     *xorm.Engine
@@ -99,3 +98,38 @@ func (c *AdminController) GetSetting() mvc.Result {
 		Data: db.GetCore(c.Sql),
 	}
 }
+
+type AuthController struct {
+	Manager *sessions.Sessions
+	Session *sessions.Session
+	Sql     *xorm.Engine
+}
+
+func (c *AuthController) GetLogin() mvc.Result {
+	return mvc.View{
+		Name: "admin/login.html",
+		Data: map[string]string{
+			"Title": "Login",
+		},
+	}
+}
+
+//func (c *AuthController) PostLogin() mvc.Result {
+//	var (
+//		username = c.Ctx.FormValue("username")
+//		password = c.Ctx.FormValue("password")
+//	)
+//
+//	if ok, _ := db.AuthUser(username, password, c.Sql); ok {
+//		return mvc.Response{
+//			Path: "/admin",
+//		}
+//	} else {
+//		return mvc.View{
+//			Name: "admin/login.html",
+//			Data: map[string]string{
+//				"Title": "Login Failed",
+//			},
+//		}
+//	}
+//}

@@ -11,7 +11,6 @@ import (
 
 //PostController is the controller to /post page.
 type PostController struct {
-	mvc.C
 	Sql *xorm.Engine
 }
 

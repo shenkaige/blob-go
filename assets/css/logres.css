@@ -1,0 +1,38 @@
+.logres-form fieldset {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.logres-form fieldset .logres-label, .logres-form fieldset .logres-checkbox {
+    font-weight: lighter;
+    color: #666;
+}
+
+.logres-card {
+    padding: 2rem;
+    box-shadow: 4px 4px 10px #BBB;
+}
+
+.pure-u-1 {
+    padding: 1rem;
+}
+
+.logres-form fieldset .logres-input {
+    width: 100%;
+    border: none;
+    background: #F6F6F6;
+    box-shadow: none;
+    padding: 1rem;
+
+}
+
+.logres-form fieldset .logres-form-item {
+    padding-bottom: 0.5rem;
+}
+
+.logres-form fieldset legend {
+    text-transform: uppercase;
+    color: #aaa;
+    font-size: 80%;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
