@@ -41,6 +41,9 @@ func main() {
 	tmpl := iris.HTML("./templates", ".html").Reload(*devMode)
 	getCore := db.GetCoreFunc(sql)
 	tmpl.AddFunc("getCore", getCore)
+	tmpl.AddFunc("add", add)
+	tmpl.AddFunc("minus", minus)
+
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
 	mvc.New(app.Party("/post").Layout("shared/main.html")).Register(sql).Handle(new(post.PostController))
@@ -50,3 +53,7 @@ func main() {
 
 	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
 }
+
+func add(a, b int) int { return a + b }
+
+func minus(a, b int) int { return a - b }

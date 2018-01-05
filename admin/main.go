@@ -42,7 +42,7 @@ func (c *AdminController) GetOverview() mvc.Result {
 
 //GetPost is the function when /admin/post/ is called.
 func (c *AdminController) GetPost() mvc.Result {
-	if ind, ok := db.GetIndex(c.Sql); ok {
+	if ind, ok := db.GetIndexBy(1, c.Sql); ok {
 		return mvc.View{
 			Name: "admin/post_index.html",
 			Data: index.IndexStruct{
