@@ -79,7 +79,7 @@ func (c *IndexController) GetAuthorBy(ctx iris.Context, autho string) mvc.Result
 
 func getURLParamInt(ctx iris.Context, param string, defau int) int {
 	page, err := ctx.URLParamInt(param)
-	if err != nil {
+	if err != nil || page == 0 {
 		return defau
 	}
 	return page
