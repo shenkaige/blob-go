@@ -8,12 +8,14 @@ import (
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"html/template"
+	"github.com/kataras/iris"
 )
 
 //AdminController is the controller to /admin page.
 type AdminController struct {
 	Manager *sessions.Sessions
 	Session *sessions.Session
+	Ctx     iris.Context
 	Sql     *xorm.Engine
 }
 
@@ -99,37 +101,38 @@ func (c *AdminController) GetSetting() mvc.Result {
 	}
 }
 
+func (c *AdminController) getCurrentUserID() int {
+	userID, _ := c.Session.GetIntDefault("UserID", 0)
+	return userID
+}
+
 type AuthController struct {
 	Manager *sessions.Sessions
 	Session *sessions.Session
+	Ctx     iris.Context
 	Sql     *xorm.Engine
 }
 
 func (c *AuthController) GetLogin() mvc.Result {
 	return mvc.View{
 		Name: "admin/login.html",
-		Data: map[string]string{
-			"Title": "Login",
-		},
+		Data: iris.Map{"Title": "Login"},
 	}
 }
 
-//func (c *AuthController) PostLogin() mvc.Result {
-//	var (
-//		username = c.Ctx.FormValue("username")
-//		password = c.Ctx.FormValue("password")
-//	)
-//
-//	if ok, _ := db.AuthUser(username, password, c.Sql); ok {
-//		return mvc.Response{
-//			Path: "/admin",
-//		}
-//	} else {
-//		return mvc.View{
-//			Name: "admin/login.html",
-//			Data: map[string]string{
-//				"Title": "Login Failed",
-//			},
-//		}
-//	}
-//}
+func (c *AuthController) PostLogin(ctx iris.Context) mvc.Result {
+	username := ctx.FormValue("username")
+	password := ctx.FormValue("password")
+
+	if ok, err := db.AuthUser(username, password, c.Sql); ok {
+		return mvc.Response{
+			Path: "/admin",
+		}
+	} else {
+		println(err.Error())
+		return mvc.View{
+			Name: "admin/login.html",
+			Data: iris.Map{"Title": "Login Failed"},
+		}
+	}
+}

@@ -13,6 +13,8 @@ import (
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
 	"github.com/kataras/iris/mvc"
+	"github.com/kataras/iris/sessions"
+	"time"
 )
 
 func main() {
@@ -44,11 +46,16 @@ func main() {
 	tmpl.AddFunc("add", add)
 	tmpl.AddFunc("minus", minus)
 
+	sessManager := sessions.New(sessions.Config{
+		Cookie:  "blobsess",
+		Expires: 24 * time.Hour,
+	})
+
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
 	mvc.New(app.Party("/post").Layout("shared/main.html")).Register(sql).Handle(new(post.PostController))
-	mvc.New(app.Party("/admin/auth").Layout("shared/logres.html")).Register(sql).Handle(new(admin.AuthController))
-	mvc.New(app.Party("/admin").Layout("shared/admin.html")).Register(sql).Handle(new(admin.AdminController))
+	mvc.New(app.Party("/admin/auth").Layout("shared/logres.html")).Register(sql, sessManager).Handle(new(admin.AuthController))
+	mvc.New(app.Party("/admin").Layout("shared/admin.html")).Register(sql, sessManager).Handle(new(admin.AdminController))
 	mvc.New(app.Party("/").Layout("shared/main.html")).Register(sql).Handle(new(index.IndexController))
 
 	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)

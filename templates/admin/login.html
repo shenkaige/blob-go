@@ -1,19 +1,19 @@
-<form class="logres-form pure-form pure-form-stacked" action="/admin/auth/login" method="post">
+<form class="logres-form pure-form pure-form-stacked" action="/admin/auth/login" method="POST">
     <fieldset>
         <legend>AUTH FORM</legend>
 
         <div class="logres-form-item">
             <label class="logres-label" for="username">USERNAME</label>
-            <input class="logres-input" id="username" placeholder="USERNAME">
+            <input class="logres-input" id="username" name="username" placeholder="USERNAME" required>
         </div>
 
         <div class="logres-form-item">
             <label class="logres-label" for="password">PASSWORD</label>
-            <input class="logres-input" id="password" type="password" placeholder="PASSWORD">
+            <input class="logres-input" id="password" name="password" type="password" placeholder="PASSWORD" required>
         </div>
 
         <div class="logres-form-item">
-            <label class="logres-checkbox" for="remember" class="pure-checkbox">
+            <label class="logres-checkbox pure-checkbox" for="remember">
                 <input id="remember" type="checkbox"> DISABLE COOKIES
             </label>
         </div>

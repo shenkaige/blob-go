@@ -6,6 +6,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/sha3"
 	"log"
+	"encoding/hex"
 )
 
 //NewDb creates a new database with chosen dialect.
@@ -44,7 +45,7 @@ func AuthUser(usernm string, passwd string, sql *xorm.Engine) (bool, error) {
 		if userData.Id != 0 {
 			hasher := sha3.New512()
 			hasher.Write([]byte(passwd))
-			if string(hasher.Sum(nil)) == userData.Passwd {
+			if hex.EncodeToString(hasher.Sum(nil)) == userData.Passwd {
 				return true, nil
 			}
 			return false, errors.New("passwd not match")

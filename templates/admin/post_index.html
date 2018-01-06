@@ -1,10 +1,7 @@
 {{range $index := .IndexData}}
 <section class="index">
     <header class="index-header">
-        <img width="48" height="48" alt="Eric Ferraiuolo&#x27;s avatar" class="index-avatar"
-             src="/assets/img/tilo-avatar.png">
-
-        <h2 class="index-title"><a href="/post/{{.Id}}" style="color: #222;">{{.Title}}</a></h2>
+        <h2 class="index-title"><a href="/admin/post/edit/{{.Id}}" style="color: #222;">{{.Title}}</a></h2>
 
         <p class="index-meta">
             By <a class="index-author" href="#">{{.Author}}</a> under <a
