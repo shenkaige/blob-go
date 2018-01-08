@@ -1,4 +1,4 @@
-.logres-form fieldset {
+.logres-form fieldset, .logres-notify {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -10,6 +10,7 @@
 .logres-card {
     padding: 2rem;
     box-shadow: 4px 4px 10px #BBB;
+    border-radius: 4px;
 }
 
 .pure-u-1 {
@@ -35,4 +36,13 @@
     font-size: 80%;
     font-weight: 500;
     letter-spacing: 0.1em;
+}
+
+.logres-notify {
+    border: none;
+    background: #0078e7;
+    padding: 1rem;
+    color: #FFF;
+    font-weight: lighter;
+    text-transform: uppercase;
 }

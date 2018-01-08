@@ -4,9 +4,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/core/errors"
 	_ "github.com/mattn/go-sqlite3"
-	"golang.org/x/crypto/sha3"
 	"log"
-	"encoding/hex"
 )
 
 //NewDb creates a new database with chosen dialect.
@@ -38,14 +36,26 @@ func GetCoreFunc(sql *xorm.Engine) func() CoreDb {
 	}
 }
 
-//AuthUser authenticates the user's identity.
-func AuthUser(usernm string, passwd string, sql *xorm.Engine) (bool, error) {
+//AuthUserName authenticates the user's identity.
+func AuthUserName(usernm string, hash string, sql *xorm.Engine) (bool, int, error) {
 	userData := UserDb{Username: usernm}
 	if ok, _ := sql.Get(&userData); ok {
 		if userData.Id != 0 {
-			hasher := sha3.New512()
-			hasher.Write([]byte(passwd))
-			if hex.EncodeToString(hasher.Sum(nil)) == userData.Passwd {
+			if hash == userData.Passwd {
+				return true, userData.Id, nil
+			}
+			return false, 0, errors.New("passwd not match")
+		}
+		return false, 0, errors.New("user not found")
+	}
+	return false, 0, errors.New("database err")
+}
+
+func AuthUserID(userid int, hash string, sql *xorm.Engine) (bool, error) {
+	userData := UserDb{Id: userid}
+	if ok, _ := sql.Get(&userData); ok {
+		if userData.Username != "" {
+			if hash == userData.Passwd {
 				return true, nil
 			}
 			return false, errors.New("passwd not match")
