@@ -5,7 +5,7 @@
         height: 300px;
     }
 </style>
-<form class="pure-form pure-form-aligned" id="edit-form">
+<form class="admin-form pure-form pure-form-aligned" id="edit-form">
     <fieldset>
         <legend>Edit your Post</legend>
 
@@ -26,7 +26,6 @@
             <label for="category">Category</label>
             <input id="category" placeholder="Category" value="{{.Category}}">
         </div>
-        <label for="content">Content</label>
         <textarea id="content">{{.Content}}</textarea>
         <button class="pure-button" type="submit">Post</button>
     </fieldset>

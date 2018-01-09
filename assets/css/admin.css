@@ -1,4 +1,4 @@
-.pure-menu {
+.pure-menu, .admin-form {
     font-family: 'Ubuntu', sans-serif;
 }
 
@@ -70,7 +70,7 @@
 
 #side-menu .pure-menu-selected,
 #side-menu .pure-menu-heading {
-    background: #1f8dd6;
+    background: #0078e7;
 }
 
 #side-menu .pure-menu-selected a {
@@ -102,6 +102,13 @@
 .menu-link:hover,
 .menu-link:focus {
     background: #000;
+}
+
+.admin-form fieldset .pure-control-group input {
+    border: none;
+    background: #F6F6F6;
+    box-shadow: none;
+    padding: 1rem;
 }
 
 @media (min-width: 48em) {
