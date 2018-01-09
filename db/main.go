@@ -19,7 +19,7 @@ func NewDb(file string, dialect string) *xorm.Engine {
 //GetCore gets core information from db.
 func GetCore(sql *xorm.Engine) CoreDb {
 	var coreData CoreDb
-	if ok, _ := sql.Get(&coreData); ok {
+	if ok, _ := sql.ID(1).Get(&coreData); ok {
 		return coreData
 	}
 	return CoreDb{}
@@ -29,7 +29,7 @@ func GetCore(sql *xorm.Engine) CoreDb {
 func GetCoreFunc(sql *xorm.Engine) func() CoreDb {
 	return func() CoreDb {
 		var coreData CoreDb
-		if ok, _ := sql.Get(&coreData); ok {
+		if ok, _ := sql.ID(1).Get(&coreData); ok {
 			return coreData
 		}
 		return CoreDb{}
@@ -108,4 +108,18 @@ func GetOverview(sql *xorm.Engine) (*OverviewDb, bool) {
 		return &OverviewDb{int(postCount), 0}, true
 	}
 	return &OverviewDb{}, false
+}
+
+func SetCore(title string, subTitle string, sql *xorm.Engine) bool {
+	coreData := CoreDb{
+		Id:       1,
+		Title:    title,
+		SubTitle: subTitle,
+	}
+	_, err := sql.Update(&coreData)
+	if err == nil {
+		return true
+	}
+	println(err.Error())
+	return false
 }

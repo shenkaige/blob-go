@@ -2,6 +2,7 @@ package db
 
 //CoreDb defines the structure of core_db.
 type CoreDb struct {
+	Id       int `xorm:"pk"`
 	Title    string
 	SubTitle string
 }

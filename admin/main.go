@@ -133,6 +133,21 @@ func (c *AdminController) GetSetting() mvc.Result {
 	})
 }
 
+func (c *AdminController) PostSetting(ctx iris.Context) mvc.Result {
+	return c.checkLogin(func() mvc.Result {
+		title := ctx.FormValue("title")
+		subTitle := ctx.FormValue("sub-title")
+		if db.SetCore(title, subTitle, c.Sql) {
+			return mvc.Response{
+				Path: "/admin/setting",
+			}
+		}
+		return mvc.Response{
+			Code: 500,
+		}
+	})
+}
+
 func (c *AdminController) GetLogin(ctx iris.Context) mvc.Result {
 	if c.isLogin() {
 		return mvc.Response{
