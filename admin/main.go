@@ -20,7 +20,7 @@ type AdminController struct {
 	Sql     *xorm.Engine
 }
 
-func (c AdminController) IsLogin() bool {
+func (c *AdminController) isLogin() bool {
 	userid, err1 := c.Session.GetIntDefault("UserID", 0)
 	hash := c.Session.GetStringDefault("UserPass", "")
 	if err1 == nil && hash != "" {
@@ -30,95 +30,111 @@ func (c AdminController) IsLogin() bool {
 	return false
 }
 
-//Get is the function when /admin/ is called.
-func (c *AdminController) Get() mvc.Result {
-	if c.IsLogin() {
-		return c.GetOverview()
+func (c *AdminController) checkLogin(callback func() mvc.Result) mvc.Result {
+	if c.isLogin() {
+		return callback()
 	}
 	return mvc.Response{
 		Path: "/admin/login?notify=you should login first.",
 	}
 }
 
+//Get is the function when /admin/ is called.
+func (c *AdminController) Get() mvc.Result {
+	return c.checkLogin(func() mvc.Result {
+		return c.GetOverview()
+	})
+}
+
 //GetOverview is the function when /admin/overview/ is called.
 func (c *AdminController) GetOverview() mvc.Result {
-	if overv, ok := db.GetOverview(c.Sql); ok {
+	return c.checkLogin(func() mvc.Result {
+		if overv, ok := db.GetOverview(c.Sql); ok {
+			return mvc.View{
+				Name: "admin/overview.html",
+				Data: OverviewStruct{
+					OverviewData: *overv,
+				},
+			}
+		}
 		return mvc.View{
 			Name: "admin/overview.html",
 			Data: OverviewStruct{
-				OverviewData: *overv,
+				OverviewData: db.OverviewDb{},
 			},
 		}
-	}
-	return mvc.View{
-		Name: "admin/overview.html",
-		Data: OverviewStruct{
-			OverviewData: db.OverviewDb{},
-		},
-	}
+	})
 }
 
 //GetPost is the function when /admin/post/ is called.
 func (c *AdminController) GetPost() mvc.Result {
-	if ind, ok := db.GetIndexBy(1, c.Sql); ok {
+	return c.checkLogin(func() mvc.Result {
+		if ind, ok := db.GetIndexBy(1, c.Sql); ok {
+			return mvc.View{
+				Name: "admin/post_index.html",
+				Data: index.IndexStruct{
+					IndexData: *ind,
+				},
+			}
+		}
 		return mvc.View{
 			Name: "admin/post_index.html",
 			Data: index.IndexStruct{
-				IndexData: *ind,
+				IndexData: []db.PostDb{},
 			},
 		}
-	}
-	return mvc.View{
-		Name: "admin/post_index.html",
-		Data: index.IndexStruct{
-			IndexData: []db.PostDb{},
-		},
-	}
+	})
 }
 
 //GetPostEdit is the function when /admin/post/edit/ is called.
 func (c *AdminController) GetPostEdit() mvc.Result {
-	return mvc.View{
-		Name: "admin/post_edit.html",
-		Data: post.PostStruct{
-			Title:    "New Post",
-			SubTitle: "This is a Subtitle",
-			Author:   "Author",
-			Category: "",
-			Content:  "",
-		},
-	}
+	return c.checkLogin(func() mvc.Result {
+		return mvc.View{
+			Name: "admin/post_edit.html",
+			Data: post.PostStruct{
+				Title:    "New Post",
+				SubTitle: "This is a Subtitle",
+				Author:   "Author",
+				Category: "",
+				Content:  "",
+			},
+		}
+	})
 }
 
 //GetPostEditBy is the function when /admin/post/edit/<id> is called.
 func (c *AdminController) GetPostEditBy(id int) mvc.Result {
-	if pos, ok := db.GetPost(id, c.Sql); ok {
-		return mvc.View{
-			Name: "admin/post_edit.html",
-			Data: post.PostStruct{
-				Title:    pos.Title,
-				SubTitle: pos.SubTitle,
-				Author:   pos.Author,
-				Category: pos.Category,
-				Content:  template.HTML(pos.Content),
-			},
+	return c.checkLogin(func() mvc.Result {
+		if pos, ok := db.GetPost(id, c.Sql); ok {
+			return mvc.View{
+				Name: "admin/post_edit.html",
+				Data: post.PostStruct{
+					Title:    pos.Title,
+					SubTitle: pos.SubTitle,
+					Author:   pos.Author,
+					Category: pos.Category,
+					Content:  template.HTML(pos.Content),
+				},
+			}
 		}
-	}
-	return mvc.Response{
-		Code: 404,
-	}
+		return mvc.Response{
+			Code: 404,
+		}
+	})
 }
 
 //GetSetting is the function when /admin/setting/ is called.
 func (c *AdminController) GetSetting() mvc.Result {
-	return mvc.View{
-		Name: "admin/setting.html",
-		Data: db.GetCore(c.Sql),
-	}
+	return c.checkLogin(func() mvc.Result {
+		return mvc.View{
+			Name: "admin/setting.html",
+			Data: db.GetCore(c.Sql),
+		}
+	})
 }
 
 func (c *AdminController) GetLogin(ctx iris.Context) mvc.Result {
-	if c.IsLogin() {
+	if c.isLogin() {
 		return mvc.Response{
 			Path: "/admin",
 		}

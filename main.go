@@ -52,6 +52,8 @@ func main() {
 	})
 	session := sessManager.Start
 
+	app.OnErrorCode(iris.StatusNotFound, fzfHandler)
+
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
 	mvc.New(app.Party("/post").Layout("shared/main.html")).Register(sql).Handle(new(post.PostController))
@@ -59,6 +61,11 @@ func main() {
 	mvc.New(app.Party("/").Layout("shared/main.html")).Register(sql).Handle(new(index.IndexController))
 
 	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
+}
+
+func fzfHandler(ctx iris.Context) {
+	ctx.ViewLayout("shared/main.html")
+	ctx.View("httperr/404.html")
 }
 
 func add(a, b int) int { return a + b }

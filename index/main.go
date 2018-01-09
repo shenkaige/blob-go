@@ -25,8 +25,7 @@ func (c *IndexController) Get(ctx iris.Context) mvc.Result {
 			},
 		}
 	}
-	return mvc.View{
-		Name: "httperr/404.html",
+	return mvc.Response{
 		Code: 404,
 	}
 }
@@ -48,8 +47,7 @@ func (c *IndexController) GetCategoryBy(ctx iris.Context, categ string) mvc.Resu
 			},
 		}
 	}
-	return mvc.View{
-		Name: "httperr/404.html",
+	return mvc.Response{
 		Code: 404,
 	}
 }
@@ -71,8 +69,7 @@ func (c *IndexController) GetAuthorBy(ctx iris.Context, autho string) mvc.Result
 			},
 		}
 	}
-	return mvc.View{
-		Name: "httperr/404.html",
+	return mvc.Response{
 		Code: 404,
 	}
 }
