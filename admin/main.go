@@ -109,6 +109,7 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 			return mvc.View{
 				Name: "admin/post_edit.html",
 				Data: post.PostStruct{
+					ID:       pos.Id,
 					Title:    pos.Title,
 					SubTitle: pos.SubTitle,
 					Author:   pos.Author,
@@ -119,6 +120,27 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 		}
 		return mvc.Response{
 			Code: 404,
+		}
+	})
+}
+
+func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
+	return c.checkLogin(func() mvc.Result {
+		postData := db.PostDb{
+			Title:    ctx.FormValue("title"),
+			SubTitle: ctx.FormValue("sub-title"),
+			Author:   ctx.FormValue("author"),
+			Category: ctx.FormValue("category"),
+			Content:  ctx.FormValue("content"),
+		}
+
+		if db.SetPost(id, &postData, c.Sql) {
+			return mvc.Response{
+				Path: "/admin/post/",
+			}
+		}
+		return mvc.Response{
+			Code: 500,
 		}
 	})
 }

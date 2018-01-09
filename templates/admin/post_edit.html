@@ -5,28 +5,33 @@
         height: 300px;
     }
 </style>
-<form class="admin-form pure-form pure-form-aligned" id="edit-form">
+<form class="admin-form pure-form pure-form-aligned" id="edit-form" action="/admin/post/edit/{{.ID}}" method="POST">
     <fieldset>
         <legend>Edit your Post</legend>
 
         <div class="pure-control-group">
+            <label for="post-id">ID</label>
+            <input id="post-id" name="post-id" placeholder="ID" value="{{.ID}}" readonly>
+        </div>
+
+        <div class="pure-control-group">
             <label for="title">Title</label>
-            <input id="title" placeholder="Title" value="{{.Title}}">
+            <input id="title" name="title" placeholder="Title" value="{{.Title}}">
         </div>
 
         <div class="pure-control-group">
             <label for="sub-title">SubTitle</label>
-            <input id="sub-title" placeholder="SubTitle" value="{{.SubTitle}}">
+            <input id="sub-title" name="sub-title" placeholder="SubTitle" value="{{.SubTitle}}">
         </div>
         <div class="pure-control-group">
             <label for="author">Author</label>
-            <input id="author" placeholder="Author" value="{{.Author}}">
+            <input id="author" name="author" placeholder="Author" value="{{.Author}}">
         </div>
         <div class="pure-control-group">
             <label for="category">Category</label>
-            <input id="category" placeholder="Category" value="{{.Category}}">
+            <input id="category" name="category" placeholder="Category" value="{{.Category}}">
         </div>
-        <textarea id="content">{{.Content}}</textarea>
+        <textarea id="content" name="content">{{.Content}}</textarea>
         <button class="pure-button" type="submit">Post</button>
     </fieldset>
 </form>

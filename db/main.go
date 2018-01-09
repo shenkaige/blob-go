@@ -36,6 +36,16 @@ func GetCoreFunc(sql *xorm.Engine) func() CoreDb {
 	}
 }
 
+func SetCore(title string, subTitle string, sql *xorm.Engine) bool {
+	coreData := CoreDb{
+		Id:       1,
+		Title:    title,
+		SubTitle: subTitle,
+	}
+	_, err := sql.Update(&coreData)
+	return err == nil
+}
+
 //AuthUserName authenticates the user's identity.
 func AuthUserName(usernm string, hash string, sql *xorm.Engine) (bool, int, error) {
 	userData := UserDb{Username: usernm}
@@ -101,6 +111,11 @@ func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
 	return &PostDb{}, false
 }
 
+func SetPost(id int, post *PostDb, sql *xorm.Engine) bool {
+	_, err := sql.ID(id).Update(post)
+	return err == nil
+}
+
 //GetOverview gets post number.
 func GetOverview(sql *xorm.Engine) (*OverviewDb, bool) {
 	post := new(PostDb)
@@ -108,18 +123,4 @@ func GetOverview(sql *xorm.Engine) (*OverviewDb, bool) {
 		return &OverviewDb{int(postCount), 0}, true
 	}
 	return &OverviewDb{}, false
-}
-
-func SetCore(title string, subTitle string, sql *xorm.Engine) bool {
-	coreData := CoreDb{
-		Id:       1,
-		Title:    title,
-		SubTitle: subTitle,
-	}
-	_, err := sql.Update(&coreData)
-	if err == nil {
-		return true
-	}
-	println(err.Error())
-	return false
 }
