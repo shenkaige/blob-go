@@ -55,11 +55,14 @@
     text-align: center;
 }
 
+.prev-next ul {
+    padding: 0;
+}
+
 .prev-next a {
     background: transparent;
     border: 2px solid rgb(61, 79, 93);
     color: rgb(61, 79, 93);
-    margin-top: 1em;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     font-size: 85%;
