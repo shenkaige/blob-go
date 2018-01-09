@@ -53,6 +53,7 @@ func main() {
 	session := sessManager.Start
 
 	app.OnErrorCode(iris.StatusNotFound, fzfHandler)
+	app.OnErrorCode(iris.StatusInternalServerError, fzzHandler)
 
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
@@ -66,6 +67,10 @@ func main() {
 func fzfHandler(ctx iris.Context) {
 	ctx.ViewLayout("shared/main.html")
 	ctx.View("httperr/404.html")
+}
+func fzzHandler(ctx iris.Context) {
+	ctx.ViewLayout("shared/main.html")
+	ctx.View("httperr/500.html")
 }
 
 func add(a, b int) int { return a + b }
