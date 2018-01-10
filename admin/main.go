@@ -11,6 +11,7 @@ import (
 	"github.com/kataras/iris/sessions"
 	"golang.org/x/crypto/sha3"
 	"html/template"
+	"strings"
 )
 
 //AdminController is the controller to /admin page.
@@ -126,12 +127,13 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 
 func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 	return c.checkLogin(func() mvc.Result {
+		r := strings.NewReplacer("\r\n", "\n")
 		postData := db.PostDb{
 			Title:    ctx.FormValue("title"),
 			SubTitle: ctx.FormValue("sub-title"),
 			Author:   ctx.FormValue("author"),
 			Category: ctx.FormValue("category"),
-			Content:  ctx.FormValue("content"),
+			Content:  r.Replace(ctx.FormValue("content")),
 		}
 
 		if db.SetPost(id, &postData, c.Sql) {
