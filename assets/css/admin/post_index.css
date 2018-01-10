@@ -10,6 +10,22 @@ a {
     border-top: 2px solid #999999;
 }
 
+ .index-title a {
+    color: #222;
+}
+
+.index-author {
+    color: rgb(61, 146, 201);
+}
+
+.index:hover {
+    border-top: 2px solid rgb(61, 146, 201);
+}
+
+.index:hover .index-title a {
+    color: rgb(61, 146, 201);
+}
+
 .index-title {
     font-size: 1.5rem;
     font-weight: 400;

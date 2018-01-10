@@ -41,15 +41,15 @@
     left: 0;
     bottom: 0;
     z-index: 2;
-    background: #191818;
+    background: rgb(37, 42, 58);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
 #side-menu a {
-    color: #999;
+    color: #FFF;
     border: none;
-    padding: 0.6em 0 0.6em 0.6em;
+    padding: 0.8em 0 0.8em 1.5em;
 }
 
 #side-menu .pure-menu,
@@ -65,12 +65,12 @@
 
 #side-menu .pure-menu li a:hover,
 #side-menu .pure-menu li a:focus {
-    background: #333;
+    background: rgb(55, 60, 90);
 }
 
 #side-menu .pure-menu-selected,
 #side-menu .pure-menu-heading {
-    background: #0078e7;
+    background: #129FEA;
 }
 
 #side-menu .pure-menu-selected a {
