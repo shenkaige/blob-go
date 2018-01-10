@@ -1,18 +1,22 @@
+<link rel="stylesheet" href="/assets/css/admin/post_index.css">
+
+<div class="indexs">
 {{range $index := .IndexData}}
-<section class="index">
-    <header class="index-header">
-        <h2 class="index-title"><a href="/admin/post/edit/{{.Id}}" style="color: #222;">{{.Title}}</a></h2>
+    <section class="index">
+        <header class="index-header">
+            <h2 class="index-title"><a href="/admin/post/edit/{{.Id}}" style="color: #222;">{{.Title}}</a></h2>
 
-        <p class="index-meta">
-            By <a class="index-author" href="#">{{.Author}}</a> under <a
-                class="category" href="#">{{.Category}}</a>
-        </p>
-    </header>
+            <p class="index-meta">
+                By <a class="index-author" href="#">{{.Author}}</a> under <a
+                    class="category" href="#">{{.Category}}</a>
+            </p>
+        </header>
 
-    <div class="index-description">
-        <p>
-        {{ printf "%.360s" .Content }}
-        </p>
-    </div>
-</section>
+        <div class="index-description">
+            <p>
+            {{ printf "%.180s" .Content }}
+            </p>
+        </div>
+    </section>
 {{end}}
+</div>
