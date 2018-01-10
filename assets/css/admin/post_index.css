@@ -1,7 +1,55 @@
-.index-header, .indexes .index .index-description p {
+.index-header, .index .index-description p {
     font-family: 'Ubuntu', sans-serif;
 }
 
 a {
     text-decoration: none;
+}
+
+.index {
+    border-top: 2px solid #999999;
+}
+
+.index-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #222;
+    margin-bottom: 0.2rem;
+}
+
+.index-meta {
+    color: #999;
+    font-size: 90%;
+    margin: 0;
+    font-weight: 300;
+}
+
+.index-description {
+    font-weight: 300;
+    color: #444;
+    line-height: 1.2rem;
+}
+
+.category {
+    margin: 0 0.1em;
+    padding: 0.3em 1em;
+    color: #fff;
+    background: #999;
+    font-size: 80%;
+}
+
+.category-green {
+    background: #5aba59;
+}
+
+.category-blue {
+    background: #4d85d1;
+}
+
+.category-purple {
+    background: #8156a7;
+}
+
+.category-red {
+    background: #df2d4f;
 }
