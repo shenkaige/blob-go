@@ -1,23 +1,22 @@
 package db
 
 import (
+	"errors"
 	"github.com/go-xorm/xorm"
-	"github.com/kataras/iris/core/errors"
 	_ "github.com/mattn/go-sqlite3"
-	"log"
 )
 
 //NewDb creates a new database with chosen dialect.
 func NewDb(file string, dialect string) *xorm.Engine {
 	orm, err := xorm.NewEngine(dialect, file)
 	if err != nil {
-		log.Println(err)
+		println(err)
 	}
 	return orm
 }
 
-//GetCore gets core information from db.
-func GetCore(sql *xorm.Engine) CoreDb {
+//GetInfo gets core information from db.
+func GetInfo(sql *xorm.Engine) CoreDb {
 	var coreData CoreDb
 	if ok, _ := sql.ID(1).Get(&coreData); ok {
 		return coreData
@@ -25,8 +24,8 @@ func GetCore(sql *xorm.Engine) CoreDb {
 	return CoreDb{}
 }
 
-//GetCoreFunc returns a function that get core information using defined sql.
-func GetCoreFunc(sql *xorm.Engine) func() CoreDb {
+//GetInfoFunc returns a function that get core information using defined sql.
+func GetInfoFunc(sql *xorm.Engine) func() CoreDb {
 	return func() CoreDb {
 		var coreData CoreDb
 		if ok, _ := sql.ID(1).Get(&coreData); ok {

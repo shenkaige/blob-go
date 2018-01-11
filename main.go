@@ -2,8 +2,7 @@ package main
 
 import (
 	"flag"
-	"strconv"
-
+	"time"
 	"./admin"
 	"./db"
 	"./index"
@@ -14,13 +13,15 @@ import (
 	"github.com/kataras/iris/middleware/recover"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
-	"time"
 	"github.com/kataras/iris/cache"
 )
 
+var themeDic = "./usr/themes/rbreaker/"
+
 func main() {
 	var devMode = flag.Bool("dev", false, "Enable dev mode")
-	var port = flag.Int("port", 8080, "the port blob listens")
+	var cache = flag.Bool("cache", false, "Enable iris cache")
+	var port = flag.String("port", "8080", "the port blob listens")
 	flag.Parse()
 
 	if *devMode {
@@ -41,9 +42,9 @@ func main() {
 	sql.Sync2(new(db.UserDb))
 	sql.Sync2(new(db.PostDb))
 
-	tmpl := iris.HTML("./templates", ".html").Reload(*devMode)
-	getCore := db.GetCoreFunc(sql)
-	tmpl.AddFunc("getCore", getCore)
+	tmpl := iris.HTML(themeDic+"templates", ".html").Reload(*devMode)
+	getInfo := db.GetInfoFunc(sql)
+	tmpl.AddFunc("getInfo", getInfo)
 	tmpl.AddFunc("add", add)
 	tmpl.AddFunc("minus", minus)
 
@@ -57,15 +58,25 @@ func main() {
 	app.OnErrorCode(iris.StatusInternalServerError, fzzHandler)
 
 	app.RegisterView(tmpl)
-	app.StaticWeb("/assets", "./assets")
-	mvc.New(app.Party("/post").Layout("shared/main.html")).
-		Register(sql).Configure(cacheConf).Handle(new(post.PostController))
-	mvc.New(app.Party("/admin").Layout("shared/admin.html")).
-		Register(sql, session).Handle(new(admin.AdminController))
-	mvc.New(app.Party("/").Layout("shared/main.html")).
-		Register(sql).Configure(cacheConf).Handle(new(index.IndexController))
+	app.StaticWeb("/assets/css", themeDic+"assets/css")
+	app.StaticWeb("/assets/js", themeDic+"assets/js")
+	if *cache {
+		mvc.New(app.Party("/post").Layout("shared/main.html")).
+			Register(sql).Configure(cacheConf).Handle(new(post.PostController))
+		mvc.New(app.Party("/admin").Layout("shared/admin.html")).
+			Register(sql, session).Handle(new(admin.AdminController))
+		mvc.New(app.Party("/").Layout("shared/main.html")).
+			Register(sql).Configure(cacheConf).Handle(new(index.IndexController))
+	} else {
+		mvc.New(app.Party("/post").Layout("shared/main.html")).
+			Register(sql).Handle(new(post.PostController))
+		mvc.New(app.Party("/admin").Layout("shared/admin.html")).
+			Register(sql, session).Handle(new(admin.AdminController))
+		mvc.New(app.Party("/").Layout("shared/main.html")).
+			Register(sql).Handle(new(index.IndexController))
+	}
 
-	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
+	app.Run(iris.Addr(":" + *port), iris.WithOptimizations)
 }
 
 func cacheConf(m *mvc.Application) {

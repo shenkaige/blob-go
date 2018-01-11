@@ -1,17 +1,17 @@
 package admin
 
 import (
+	"strings"
+	"encoding/hex"
+	"html/template"
 	"../db"
 	"../index"
 	"../post"
-	"encoding/hex"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"golang.org/x/crypto/sha3"
-	"html/template"
-	"strings"
 )
 
 var fzfResp = mvc.Response{Code: 404}
@@ -147,7 +147,7 @@ func (c *AdminController) GetSetting() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		return mvc.View{
 			Name: "admin/setting.html",
-			Data: db.GetCore(c.Sql),
+			Data: db.GetInfo(c.Sql),
 		}
 	})
 }
