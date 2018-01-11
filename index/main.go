@@ -7,6 +7,10 @@ import (
 	"github.com/kataras/iris/mvc"
 )
 
+var fzfResp = mvc.Response{
+	Code: 404,
+}
+
 //IndexController is the controller to / page.
 type IndexController struct {
 	Sql *xorm.Engine
@@ -25,9 +29,7 @@ func (c *IndexController) Get(ctx iris.Context) mvc.Result {
 			},
 		}
 	}
-	return mvc.Response{
-		Code: 404,
-	}
+	return fzfResp
 }
 
 //GetCategory is the function when /category/ is called.
@@ -47,9 +49,7 @@ func (c *IndexController) GetCategoryBy(ctx iris.Context, categ string) mvc.Resu
 			},
 		}
 	}
-	return mvc.Response{
-		Code: 404,
-	}
+	return fzfResp
 }
 
 //GetAuthor is the function when /author/ is called.
@@ -69,9 +69,7 @@ func (c *IndexController) GetAuthorBy(ctx iris.Context, autho string) mvc.Result
 			},
 		}
 	}
-	return mvc.Response{
-		Code: 404,
-	}
+	return fzfResp
 }
 
 func getURLParamInt(ctx iris.Context, param string, defau int) int {

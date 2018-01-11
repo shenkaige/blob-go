@@ -9,6 +9,10 @@ import (
 	"html/template"
 )
 
+var fzfResp = mvc.Response{
+	Code: 404,
+}
+
 //PostController is the controller to /post page.
 type PostController struct {
 	Sql *xorm.Engine
@@ -28,10 +32,7 @@ func (c *PostController) Get() mvc.Result {
 			},
 		}
 	}
-	return mvc.View{
-		Name: "httperr/404.html",
-		Code: 404,
-	}
+	return fzfResp
 }
 
 //GetBy is the function when /post/<id> is called.
@@ -48,8 +49,5 @@ func (c *PostController) GetBy(id int) mvc.Result {
 			},
 		}
 	}
-	return mvc.View{
-		Name: "httperr/404.html",
-		Code: 404,
-	}
+	return fzfResp
 }
