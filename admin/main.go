@@ -35,9 +35,7 @@ func (c *AdminController) checkLogin(callback func() mvc.Result) mvc.Result {
 	if c.isLogin() {
 		return callback()
 	}
-	return mvc.Response{
-		Path: "/admin/login?notify=you should login first.",
-	}
+	return mvc.Response{Path: "/admin/login?notify=you should login first.",}
 }
 
 //Get is the function when /admin/ is called.
@@ -119,9 +117,7 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 				},
 			}
 		}
-		return mvc.Response{
-			Code: 404,
-		}
+		return mvc.Response{Code: 404}
 	})
 }
 
@@ -137,13 +133,9 @@ func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 		}
 
 		if db.SetPost(id, &postData, c.Sql) {
-			return mvc.Response{
-				Path: "/admin/post/",
-			}
+			return mvc.Response{Path: "/admin/post/"}
 		}
-		return mvc.Response{
-			Code: 500,
-		}
+		return mvc.Response{Code: 500}
 	})
 }
 
@@ -162,21 +154,15 @@ func (c *AdminController) PostSetting(ctx iris.Context) mvc.Result {
 		title := ctx.FormValue("title")
 		subTitle := ctx.FormValue("sub-title")
 		if db.SetCore(title, subTitle, c.Sql) {
-			return mvc.Response{
-				Path: "/admin/setting",
-			}
+			return mvc.Response{Path: "/admin/setting"}
 		}
-		return mvc.Response{
-			Code: 500,
-		}
+		return mvc.Response{Code: 500}
 	})
 }
 
 func (c *AdminController) GetLogin(ctx iris.Context) mvc.Result {
 	if c.isLogin() {
-		return mvc.Response{
-			Path: "/admin",
-		}
+		return mvc.Response{Path: "/admin"}
 	} else {
 		ctx.ViewLayout("shared/logres.html")
 		return mvc.View{
@@ -197,20 +183,14 @@ func (c *AdminController) PostLogin(ctx iris.Context) mvc.Result {
 	if ok, id, _ := db.AuthUserName(username, hash, c.Sql); ok {
 		c.Session.Set("UserID", id)
 		c.Session.Set("UserPass", hash)
-		return mvc.Response{
-			Path: "/admin",
-		}
+		return mvc.Response{Path: "/admin"}
 	} else {
-		return mvc.Response{
-			Path: "/admin/login?notify=login failed.",
-		}
+		return mvc.Response{Path: "/admin/login?notify=login failed."}
 	}
 }
 
 func (c *AdminController) GetLogout() mvc.Result {
 	c.Session.Delete("UserID")
 	c.Session.Delete("UserPass")
-	return mvc.Response{
-		Path: "/admin/login?notify=you are logged out.",
-	}
+	return mvc.Response{Path: "/admin/login?notify=you are logged out."}
 }

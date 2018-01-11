@@ -7,9 +7,7 @@ import (
 	"github.com/kataras/iris/mvc"
 )
 
-var fzfResp = mvc.Response{
-	Code: 404,
-}
+var fzfResp = mvc.Response{Code: 404}
 
 //IndexController is the controller to / page.
 type IndexController struct {

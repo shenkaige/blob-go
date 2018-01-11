@@ -9,9 +9,7 @@ import (
 	"html/template"
 )
 
-var fzfResp = mvc.Response{
-	Code: 404,
-}
+var fzfResp = mvc.Response{Code: 404}
 
 //PostController is the controller to /post page.
 type PostController struct {
@@ -20,19 +18,7 @@ type PostController struct {
 
 //Get is the function when /post/ is called.
 func (c *PostController) Get() mvc.Result {
-	if post, ok := db.GetPost(1, c.Sql); ok {
-		return mvc.View{
-			Name: "post.html",
-			Data: PostStruct{
-				Title:    post.Title,
-				SubTitle: post.SubTitle,
-				Author:   post.Author,
-				Category: post.Category,
-				Content:  template.HTML(string(blackfriday.Run([]byte(post.Content)))),
-			},
-		}
-	}
-	return fzfResp
+	return mvc.Response{Path: "/"}
 }
 
 //GetBy is the function when /post/<id> is called.
