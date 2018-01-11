@@ -15,7 +15,10 @@ import (
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"time"
+	"github.com/kataras/iris/cache"
 )
+
+var cacheHandler = cache.Handler(10 * time.Second)
 
 func main() {
 	var devMode = flag.Bool("dev", false, "Enable dev mode")
@@ -57,11 +60,18 @@ func main() {
 
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets", "./assets")
-	mvc.New(app.Party("/post").Layout("shared/main.html")).Register(sql).Handle(new(post.PostController))
-	mvc.New(app.Party("/admin").Layout("shared/admin.html")).Register(sql, session).Handle(new(admin.AdminController))
-	mvc.New(app.Party("/").Layout("shared/main.html")).Register(sql).Handle(new(index.IndexController))
+	mvc.New(app.Party("/post").Layout("shared/main.html")).
+		Register(sql).Configure(cacheConf).Handle(new(post.PostController))
+	mvc.New(app.Party("/admin").Layout("shared/admin.html")).
+		Register(sql, session).Handle(new(admin.AdminController))
+	mvc.New(app.Party("/").Layout("shared/main.html")).
+		Register(sql).Configure(cacheConf).Handle(new(index.IndexController))
 
 	app.Run(iris.Addr(":"+strconv.Itoa(*port)), iris.WithOptimizations)
+}
+
+func cacheConf(m *mvc.Application) {
+	m.Router.Use(cacheHandler)
 }
 
 func fzfHandler(ctx iris.Context) {
