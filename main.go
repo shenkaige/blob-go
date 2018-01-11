@@ -68,6 +68,7 @@ func fzfHandler(ctx iris.Context) {
 	ctx.ViewLayout("shared/main.html")
 	ctx.View("httperr/404.html")
 }
+
 func fzzHandler(ctx iris.Context) {
 	ctx.ViewLayout("shared/main.html")
 	ctx.View("httperr/500.html")
