@@ -18,8 +18,6 @@ import (
 	"github.com/kataras/iris/cache"
 )
 
-var cacheHandler = cache.Handler(10 * time.Second)
-
 func main() {
 	var devMode = flag.Bool("dev", false, "Enable dev mode")
 	var port = flag.Int("port", 8080, "the port blob listens")
@@ -71,7 +69,7 @@ func main() {
 }
 
 func cacheConf(m *mvc.Application) {
-	m.Router.Use(cacheHandler)
+	m.Router.Use(cache.Handler(10 * time.Second))
 }
 
 func fzfHandler(ctx iris.Context) {

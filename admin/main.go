@@ -14,6 +14,9 @@ import (
 	"strings"
 )
 
+var fzfResp = mvc.Response{Code: 404}
+var fzzResp = mvc.Response{Code: 500}
+
 //AdminController is the controller to /admin page.
 type AdminController struct {
 	Session *sessions.Session
@@ -117,7 +120,7 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 				},
 			}
 		}
-		return mvc.Response{Code: 404}
+		return fzfResp
 	})
 }
 
@@ -135,7 +138,7 @@ func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 		if db.SetPost(id, &postData, c.Sql) {
 			return mvc.Response{Path: "/admin/post/"}
 		}
-		return mvc.Response{Code: 500}
+		return fzzResp
 	})
 }
 
@@ -156,7 +159,7 @@ func (c *AdminController) PostSetting(ctx iris.Context) mvc.Result {
 		if db.SetCore(title, subTitle, c.Sql) {
 			return mvc.Response{Path: "/admin/setting"}
 		}
-		return mvc.Response{Code: 500}
+		return fzzResp
 	})
 }
 
