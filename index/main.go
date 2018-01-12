@@ -41,7 +41,7 @@ func (c *IndexController) GetCategory() mvc.Result {
 
 //GetCategoryBy is the function when /category/<string> is called.
 func (c *IndexController) GetCategoryBy(categ string) mvc.Result {
-	return c.GetCategoryByBy(categ, 1)
+	return mvc.Response{Path: "/category/" + categ + "/1"}
 }
 
 //GetCategoryBy is the function when /category/<string> is called.
@@ -64,7 +64,7 @@ func (c *IndexController) GetAuthor() mvc.Result {
 }
 
 func (c *IndexController) GetAuthorBy(autho string) mvc.Result {
-	return c.GetAuthorByBy(autho, 1)
+	return mvc.Response{Path: "/author/" + autho + "/1"}
 }
 
 //GetAuthorBy is the function when /author/<string> is called.
