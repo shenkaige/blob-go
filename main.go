@@ -1,19 +1,19 @@
 package main
 
 import (
-	"flag"
-	"time"
 	"./admin"
 	"./db"
 	"./index"
 	"./post"
+	"flag"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
+	"github.com/kataras/iris/cache"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
-	"github.com/kataras/iris/cache"
+	"time"
 )
 
 var themeDic = "./usr/themes/rbreaker/"
@@ -76,7 +76,7 @@ func main() {
 			Register(sql).Handle(new(index.IndexController))
 	}
 
-	app.Run(iris.Addr(":" + *port), iris.WithOptimizations)
+	app.Run(iris.Addr(":"+*port), iris.WithOptimizations)
 }
 
 func cacheConf(m *mvc.Application) {

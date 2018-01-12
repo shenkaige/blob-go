@@ -1,17 +1,17 @@
 package admin
 
 import (
-	"strings"
-	"encoding/hex"
-	"html/template"
 	"../db"
 	"../index"
 	"../post"
+	"encoding/hex"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
 	"golang.org/x/crypto/sha3"
+	"html/template"
+	"strings"
 )
 
 var fzfResp = mvc.Response{Code: 404}
@@ -38,7 +38,7 @@ func (c *AdminController) checkLogin(callback func() mvc.Result) mvc.Result {
 	if c.isLogin() {
 		return callback()
 	}
-	return mvc.Response{Path: "/admin/login?notify=you should login first.",}
+	return mvc.Response{Path: "/admin/login?notify=you should login first."}
 }
 
 //Get is the function when /admin/ is called.

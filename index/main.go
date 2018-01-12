@@ -16,13 +16,17 @@ type IndexController struct {
 }
 
 //Get is the function when / is called.
-func (c *IndexController) Get(ctx iris.Context) mvc.Result {
-	page := getURLParamInt(ctx, "page", 1)
-	if index, ok := db.GetIndexBy(page, c.Sql); ok {
+func (c *IndexController) Get() mvc.Result {
+	return c.GetBy(1)
+}
+
+//Get is the function when / is called.
+func (c *IndexController) GetBy(pageid int) mvc.Result {
+	if index, ok := db.GetIndexBy(pageid, c.Sql); ok {
 		return mvc.View{
 			Name: "index.html",
 			Data: IndexStruct{
-				Index:     page,
+				Index:     pageid,
 				IndexData: *index,
 			},
 		}
@@ -36,13 +40,17 @@ func (c *IndexController) GetCategory() mvc.Result {
 }
 
 //GetCategoryBy is the function when /category/<string> is called.
-func (c *IndexController) GetCategoryBy(ctx iris.Context, categ string) mvc.Result {
-	page := getURLParamInt(ctx, "page", 1)
-	if index, ok := db.GetIndexByCategoryBy(page, categ, c.Sql); ok {
+func (c *IndexController) GetCategoryBy(categ string) mvc.Result {
+	return c.GetCategoryByBy(categ, 1)
+}
+
+//GetCategoryBy is the function when /category/<string> is called.
+func (c *IndexController) GetCategoryByBy(categ string, pageid int) mvc.Result {
+	if index, ok := db.GetIndexByCategoryBy(pageid, categ, c.Sql); ok {
 		return mvc.View{
 			Name: "index.html",
 			Data: IndexStruct{
-				Index:     page,
+				Index:     pageid,
 				IndexData: *index,
 			},
 		}
@@ -55,25 +63,20 @@ func (c *IndexController) GetAuthor() mvc.Result {
 	return mvc.Response{Path: "/"}
 }
 
+func (c *IndexController) GetAuthorBy(autho string) mvc.Result {
+	return c.GetAuthorByBy(autho, 1)
+}
+
 //GetAuthorBy is the function when /author/<string> is called.
-func (c *IndexController) GetAuthorBy(ctx iris.Context, autho string) mvc.Result {
-	page := getURLParamInt(ctx, "page", 1)
-	if index, ok := db.GetIndexByAuthorBy(page, autho, c.Sql); ok {
+func (c *IndexController) GetAuthorByBy(autho string, pageid int) mvc.Result {
+	if index, ok := db.GetIndexByAuthorBy(pageid, autho, c.Sql); ok {
 		return mvc.View{
 			Name: "index.html",
 			Data: IndexStruct{
-				Index:     page,
+				Index:     pageid,
 				IndexData: *index,
 			},
 		}
 	}
 	return fzfResp
-}
-
-func getURLParamInt(ctx iris.Context, param string, defau int) int {
-	page, err := ctx.URLParamInt(param)
-	if err != nil || page == 0 {
-		return defau
-	}
-	return page
 }

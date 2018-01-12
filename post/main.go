@@ -1,12 +1,12 @@
 package post
 
 import (
-	"html/template"
 	"../db"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris/mvc"
 	_ "github.com/mattn/go-sqlite3"
 	"gopkg.in/russross/blackfriday.v2"
+	"html/template"
 )
 
 var fzfResp = mvc.Response{Code: 404}
