@@ -1,0 +1,6 @@
+language: go
+go:
+  - 1.9
+script: go get github.com/go-xorm/xorm && go get -u github.com/kataras/iris && go get golang.org/x/crypto/sha3 && go get github.com/mattn/go-sqlite3 && go get gopkg.in/russross/blackfriday.v2
+notifications:
+  email: false
