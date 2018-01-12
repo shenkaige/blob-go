@@ -1,4 +1,4 @@
-# BLOB
+# BLOB ![build status](https://img.shields.io/travis/blob-go/blob-go.svg?style=for-the-badge)![iris](https://img.shields.io/badge/iris-powered-2196f3.svg?style=for-the-badge)![fast](https://img.shields.io/badge/fast-loading-2196f3.svg?style=for-the-badge)![responsive](https://img.shields.io/badge/responsive-ready-2196f3.svg?style=for-the-badge)
 A fast, lightweight and extensible blogging platform, written in Go.
 # TODO List
 - [x] Basic Interface
@@ -13,7 +13,7 @@ A fast, lightweight and extensible blogging platform, written in Go.
 - [ ] Plugin System
 - [ ] More, contribution welcomed!
 # Features
-__BLOB is designed to be fast.__
+__BLOB is designed to be fast.__ It can handle 10'000 connections concurrently for an average load time of 40 ms on an Intel i7-6700HQ clocked at 1.80 GHz.
 
 BLOB is written in Go, which makes it __work everywhere__, from server (GNU/Linux or Windows) to Raspberry Pi.
 Everywhere Go runs, BLOB works.
