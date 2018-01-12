@@ -1,0 +1,3 @@
+[submodule "rbreaker"]
+	path = usr/themes/rbreaker
+	url = https://github.com/blob-go/rbreaker
