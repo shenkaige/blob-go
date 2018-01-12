@@ -1,7 +1,7 @@
 package index
 
 import (
-	"../db"
+	"github.com/blob-go/blob-go/db"
 )
 
 //IndexStruct is the the structure of indexData.

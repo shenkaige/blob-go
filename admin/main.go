@@ -1,9 +1,9 @@
 package admin
 
 import (
-	"../db"
-	"../index"
-	"../post"
+	"github.com/blob-go/blob-go/db"
+	"github.com/blob-go/blob-go/index"
+	"github.com/blob-go/blob-go/post"
 	"encoding/hex"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"

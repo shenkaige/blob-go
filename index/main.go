@@ -1,7 +1,7 @@
 package index
 
 import (
-	"../db"
+	"github.com/blob-go/blob-go/db"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"

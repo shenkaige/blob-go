@@ -1,10 +1,10 @@
 package main
 
 import (
-	"./admin"
-	"./db"
-	"./index"
-	"./post"
+	"github.com/blob-go/blob-go/admin"
+	"github.com/blob-go/blob-go/db"
+	"github.com/blob-go/blob-go/index"
+	"github.com/blob-go/blob-go/post"
 	"flag"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"

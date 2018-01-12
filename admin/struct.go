@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"../db"
+	"github.com/blob-go/blob-go/db"
 )
 
 //OverviewStruct is the the structure of overview in /admin/.
