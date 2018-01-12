@@ -2,8 +2,8 @@ package post
 
 import "html/template"
 
-//PostStruct is the the structure of post in /post/.
-type PostStruct struct {
+//Struct is the the structure of post in /post/.
+type Struct struct {
 	ID       int
 	Title    string
 	SubTitle string

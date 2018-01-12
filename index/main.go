@@ -9,24 +9,24 @@ import (
 
 var fzfResp = mvc.Response{Code: 404}
 
-//IndexController is the controller to / page.
-type IndexController struct {
-	Sql *xorm.Engine
+//Controller is the controller to / page.
+type Controller struct {
+	SQL *xorm.Engine
 	Ctx iris.Context
 }
 
 //Get is the function when / is called.
-func (c *IndexController) Get() mvc.Result {
+func (c *Controller) Get() mvc.Result {
 	return c.GetBy(1)
 }
 
-//Get is the function when / is called.
-func (c *IndexController) GetBy(pageid int) mvc.Result {
-	if index, ok := db.GetIndexBy(pageid, c.Sql); ok {
+//GetBy is the function when /<int> is called.
+func (c *Controller) GetBy(pageID int) mvc.Result {
+	if index, ok := db.GetIndexBy(pageID, c.SQL); ok {
 		return mvc.View{
 			Name: "index.html",
-			Data: IndexStruct{
-				Index:     pageid,
+			Data: Struct{
+				Index:     pageID,
 				IndexData: *index,
 			},
 		}
@@ -35,22 +35,22 @@ func (c *IndexController) GetBy(pageid int) mvc.Result {
 }
 
 //GetCategory is the function when /category/ is called.
-func (c *IndexController) GetCategory() mvc.Result {
+func (c *Controller) GetCategory() mvc.Result {
 	return mvc.Response{Path: "/"}
 }
 
 //GetCategoryBy is the function when /category/<string> is called.
-func (c *IndexController) GetCategoryBy(categ string) mvc.Result {
-	return mvc.Response{Path: "/category/" + categ + "/1"}
+func (c *Controller) GetCategoryBy(category string) mvc.Result {
+	return mvc.Response{Path: "/category/" + category + "/1"}
 }
 
-//GetCategoryBy is the function when /category/<string> is called.
-func (c *IndexController) GetCategoryByBy(categ string, pageid int) mvc.Result {
-	if index, ok := db.GetIndexByCategoryBy(pageid, categ, c.Sql); ok {
+//GetCategoryByBy is the function when /category/<string>/<int> is called.
+func (c *Controller) GetCategoryByBy(category string, pageID int) mvc.Result {
+	if index, ok := db.GetIndexByCategoryBy(pageID, category, c.SQL); ok {
 		return mvc.View{
 			Name: "index.html",
-			Data: IndexStruct{
-				Index:     pageid,
+			Data: Struct{
+				Index:     pageID,
 				IndexData: *index,
 			},
 		}
@@ -59,21 +59,22 @@ func (c *IndexController) GetCategoryByBy(categ string, pageid int) mvc.Result {
 }
 
 //GetAuthor is the function when /author/ is called.
-func (c *IndexController) GetAuthor() mvc.Result {
+func (c *Controller) GetAuthor() mvc.Result {
 	return mvc.Response{Path: "/"}
 }
 
-func (c *IndexController) GetAuthorBy(autho string) mvc.Result {
-	return mvc.Response{Path: "/author/" + autho + "/1"}
+//GetAuthorBy is the function when /author/<string> is called.
+func (c *Controller) GetAuthorBy(author string) mvc.Result {
+	return mvc.Response{Path: "/author/" + author + "/1"}
 }
 
-//GetAuthorBy is the function when /author/<string> is called.
-func (c *IndexController) GetAuthorByBy(autho string, pageid int) mvc.Result {
-	if index, ok := db.GetIndexByAuthorBy(pageid, autho, c.Sql); ok {
+//GetAuthorByBy is the function when /author/<string>/<int> is called.
+func (c *Controller) GetAuthorByBy(author string, pageID int) mvc.Result {
+	if index, ok := db.GetIndexByAuthorBy(pageID, author, c.SQL); ok {
 		return mvc.View{
 			Name: "index.html",
-			Data: IndexStruct{
-				Index:     pageid,
+			Data: Struct{
+				Index:     pageID,
 				IndexData: *index,
 			},
 		}

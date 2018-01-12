@@ -1,10 +1,10 @@
 package admin
 
 import (
+	"encoding/hex"
 	"github.com/blob-go/blob-go/db"
 	"github.com/blob-go/blob-go/index"
 	"github.com/blob-go/blob-go/post"
-	"encoding/hex"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
@@ -17,24 +17,24 @@ import (
 var fzfResp = mvc.Response{Code: 404}
 var fzzResp = mvc.Response{Code: 500}
 
-//AdminController is the controller to /admin page.
-type AdminController struct {
+//Controller is the controller to /admin page.
+type Controller struct {
 	Session *sessions.Session
 	Ctx     iris.Context
-	Sql     *xorm.Engine
+	SQL     *xorm.Engine
 }
 
-func (c *AdminController) isLogin() bool {
-	userid, err1 := c.Session.GetIntDefault("UserID", 0)
+func (c *Controller) isLogin() bool {
+	userID, err1 := c.Session.GetIntDefault("UserID", 0)
 	hash := c.Session.GetStringDefault("UserPass", "")
 	if err1 == nil && hash != "" {
-		ok, _ := db.AuthUserID(userid, hash, c.Sql)
+		ok, _ := db.AuthUserID(userID, hash, c.SQL)
 		return ok
 	}
 	return false
 }
 
-func (c *AdminController) checkLogin(callback func() mvc.Result) mvc.Result {
+func (c *Controller) checkLogin(callback func() mvc.Result) mvc.Result {
 	if c.isLogin() {
 		return callback()
 	}
@@ -42,20 +42,20 @@ func (c *AdminController) checkLogin(callback func() mvc.Result) mvc.Result {
 }
 
 //Get is the function when /admin/ is called.
-func (c *AdminController) Get() mvc.Result {
+func (c *Controller) Get() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		return c.GetOverview()
 	})
 }
 
 //GetOverview is the function when /admin/overview/ is called.
-func (c *AdminController) GetOverview() mvc.Result {
+func (c *Controller) GetOverview() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
-		if overv, ok := db.GetOverview(c.Sql); ok {
+		if overviewData, ok := db.GetOverview(c.SQL); ok {
 			return mvc.View{
 				Name: "admin/overview.html",
 				Data: OverviewStruct{
-					OverviewData: *overv,
+					OverviewData: *overviewData,
 				},
 			}
 		}
@@ -69,19 +69,19 @@ func (c *AdminController) GetOverview() mvc.Result {
 }
 
 //GetPost is the function when /admin/post/ is called.
-func (c *AdminController) GetPost() mvc.Result {
+func (c *Controller) GetPost() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
-		if ind, ok := db.GetIndexBy(1, c.Sql); ok {
+		if indexData, ok := db.GetIndexBy(1, c.SQL); ok {
 			return mvc.View{
 				Name: "admin/post_index.html",
-				Data: index.IndexStruct{
-					IndexData: *ind,
+				Data: index.Struct{
+					IndexData: *indexData,
 				},
 			}
 		}
 		return mvc.View{
 			Name: "admin/post_index.html",
-			Data: index.IndexStruct{
+			Data: index.Struct{
 				IndexData: []db.PostDb{},
 			},
 		}
@@ -89,11 +89,11 @@ func (c *AdminController) GetPost() mvc.Result {
 }
 
 //GetPostEdit is the function when /admin/post/edit/ is called.
-func (c *AdminController) GetPostEdit() mvc.Result {
+func (c *Controller) GetPostEdit() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		return mvc.View{
 			Name: "admin/post_edit.html",
-			Data: post.PostStruct{
+			Data: post.Struct{
 				Title:    "New Post",
 				SubTitle: "This is a Subtitle",
 				Author:   "Author",
@@ -105,18 +105,18 @@ func (c *AdminController) GetPostEdit() mvc.Result {
 }
 
 //GetPostEditBy is the function when /admin/post/edit/<id> is called.
-func (c *AdminController) GetPostEditBy(id int) mvc.Result {
+func (c *Controller) GetPostEditBy(id int) mvc.Result {
 	return c.checkLogin(func() mvc.Result {
-		if pos, ok := db.GetPost(id, c.Sql); ok {
+		if postData, ok := db.GetPost(id, c.SQL); ok {
 			return mvc.View{
 				Name: "admin/post_edit.html",
-				Data: post.PostStruct{
-					ID:       pos.Id,
-					Title:    pos.Title,
-					SubTitle: pos.SubTitle,
-					Author:   pos.Author,
-					Category: pos.Category,
-					Content:  template.HTML(pos.Content),
+				Data: post.Struct{
+					ID:       postData.Id,
+					Title:    postData.Title,
+					SubTitle: postData.SubTitle,
+					Author:   postData.Author,
+					Category: postData.Category,
+					Content:  template.HTML(postData.Content),
 				},
 			}
 		}
@@ -124,7 +124,8 @@ func (c *AdminController) GetPostEditBy(id int) mvc.Result {
 	})
 }
 
-func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
+//PostPostEditBy is the function when /admin/post/edit/<id> is posted.
+func (c *Controller) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		r := strings.NewReplacer("\r\n", "\n")
 		postData := db.PostDb{
@@ -134,8 +135,7 @@ func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 			Category: ctx.FormValue("category"),
 			Content:  r.Replace(ctx.FormValue("content")),
 		}
-
-		if db.SetPost(id, &postData, c.Sql) {
+		if db.SetPost(id, &postData, c.SQL) {
 			return mvc.Response{Path: "/admin/post/"}
 		}
 		return fzzResp
@@ -143,39 +143,41 @@ func (c *AdminController) PostPostEditBy(id int, ctx iris.Context) mvc.Result {
 }
 
 //GetSetting is the function when /admin/setting/ is called.
-func (c *AdminController) GetSetting() mvc.Result {
+func (c *Controller) GetSetting() mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		return mvc.View{
 			Name: "admin/setting.html",
-			Data: db.GetInfo(c.Sql),
+			Data: db.GetInfo(c.SQL),
 		}
 	})
 }
 
-func (c *AdminController) PostSetting(ctx iris.Context) mvc.Result {
+//PostSetting is the function when /admin/setting/ is posted.
+func (c *Controller) PostSetting(ctx iris.Context) mvc.Result {
 	return c.checkLogin(func() mvc.Result {
 		title := ctx.FormValue("title")
 		subTitle := ctx.FormValue("sub-title")
-		if db.SetCore(title, subTitle, c.Sql) {
+		if db.SetCore(title, subTitle, c.SQL) {
 			return mvc.Response{Path: "/admin/setting"}
 		}
 		return fzzResp
 	})
 }
 
-func (c *AdminController) GetLogin(ctx iris.Context) mvc.Result {
+//GetLogin is the function when /admin/login/ is called.
+func (c *Controller) GetLogin(ctx iris.Context) mvc.Result {
 	if c.isLogin() {
 		return mvc.Response{Path: "/admin"}
-	} else {
-		ctx.ViewLayout("shared/logres.html")
-		return mvc.View{
-			Name: "admin/login.html",
-			Data: iris.Map{"Title": "Login"},
-		}
+	}
+	ctx.ViewLayout("shared/logres.html")
+	return mvc.View{
+		Name: "admin/login.html",
+		Data: iris.Map{"Title": "Login"},
 	}
 }
 
-func (c *AdminController) PostLogin(ctx iris.Context) mvc.Result {
+//PostLogin is the function when /admin/login/ is posted.
+func (c *Controller) PostLogin(ctx iris.Context) mvc.Result {
 	username := ctx.FormValue("username")
 	password := ctx.FormValue("password")
 
@@ -183,16 +185,16 @@ func (c *AdminController) PostLogin(ctx iris.Context) mvc.Result {
 	hasher.Write([]byte(password))
 	hash := hex.EncodeToString(hasher.Sum(nil))
 
-	if ok, id, _ := db.AuthUserName(username, hash, c.Sql); ok {
+	if ok, id, _ := db.AuthUserName(username, hash, c.SQL); ok {
 		c.Session.Set("UserID", id)
 		c.Session.Set("UserPass", hash)
 		return mvc.Response{Path: "/admin"}
-	} else {
-		return mvc.Response{Path: "/admin/login?notify=login failed."}
 	}
+	return mvc.Response{Path: "/admin/login?notify=login failed."}
 }
 
-func (c *AdminController) GetLogout() mvc.Result {
+//GetLogout is the function when /admin/logout/ is called.
+func (c *Controller) GetLogout() mvc.Result {
 	c.Session.Delete("UserID")
 	c.Session.Delete("UserPass")
 	return mvc.Response{Path: "/admin/login?notify=you are logged out."}

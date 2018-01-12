@@ -4,8 +4,8 @@ import (
 	"github.com/blob-go/blob-go/db"
 )
 
-//IndexStruct is the the structure of indexData.
-type IndexStruct struct {
+//Struct is the the structure of indexData.
+type Struct struct {
 	Index     int
 	IndexData []db.PostDb
 }

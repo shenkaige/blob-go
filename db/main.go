@@ -3,7 +3,7 @@ package db
 import (
 	"errors"
 	"github.com/go-xorm/xorm"
-	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/mattn/go-sqlite3"//Imports package necessary for xorm.
 )
 
 //NewDb creates a new database with chosen dialect.
@@ -35,6 +35,7 @@ func GetInfoFunc(sql *xorm.Engine) func() CoreDb {
 	}
 }
 
+//SetCore is the function to set core information of blob.
 func SetCore(title string, subTitle string, sql *xorm.Engine) bool {
 	coreData := CoreDb{
 		Id:       1,
@@ -46,8 +47,8 @@ func SetCore(title string, subTitle string, sql *xorm.Engine) bool {
 }
 
 //AuthUserName authenticates the user's identity.
-func AuthUserName(usernm string, hash string, sql *xorm.Engine) (bool, int, error) {
-	userData := UserDb{Username: usernm}
+func AuthUserName(userName string, hash string, sql *xorm.Engine) (bool, int, error) {
+	userData := UserDb{Username: userName}
 	if ok, _ := sql.Get(&userData); ok {
 		if userData.Id != 0 {
 			if hash == userData.Passwd {
@@ -60,14 +61,15 @@ func AuthUserName(usernm string, hash string, sql *xorm.Engine) (bool, int, erro
 	return false, 0, errors.New("database err")
 }
 
-func AuthUserID(userid int, hash string, sql *xorm.Engine) (bool, error) {
-	userData := UserDb{Id: userid}
+//AuthUserID authenticates user with ID and hash.
+func AuthUserID(userID int, hash string, sql *xorm.Engine) (bool, error) {
+	userData := UserDb{Id: userID}
 	if ok, _ := sql.Get(&userData); ok {
 		if userData.Username != "" {
 			if hash == userData.Passwd {
 				return true, nil
 			}
-			return false, errors.New("passwd not match")
+			return false, errors.New("password not match")
 		}
 		return false, errors.New("user not found")
 	}
@@ -76,35 +78,32 @@ func AuthUserID(userid int, hash string, sql *xorm.Engine) (bool, error) {
 
 //GetIndexBy gets index of the first 10 posts.
 func GetIndexBy(index int, sql *xorm.Engine) (*[]PostDb, bool) {
-	var datas []PostDb
+	var arrPostDb []PostDb
 	if index > 0 {
-		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas);
-			err == nil && len(datas) != 0 {
-			return &datas, true
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&arrPostDb); err == nil && len(arrPostDb) != 0 {
+			return &arrPostDb, true
 		}
 	}
 	return nil, false
 }
 
-//GetIndexByCategoryBy gets index of the first 10 posts of the destinated category.
-func GetIndexByCategoryBy(index int, categ string, sql *xorm.Engine) (*[]PostDb, bool) {
-	var datas []PostDb
+//GetIndexByCategoryBy gets index of the first 10 posts of the destine category.
+func GetIndexByCategoryBy(index int, category string, sql *xorm.Engine) (*[]PostDb, bool) {
+	var arrPostDb []PostDb
 	if index > 0 {
-		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Category: categ});
-			err == nil && len(datas) != 0 {
-			return &datas, true
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&arrPostDb, &PostDb{Category: category}); err == nil && len(arrPostDb) != 0 {
+			return &arrPostDb, true
 		}
 	}
 	return nil, false
 }
 
-//GetIndexByAuthorBy gets index of the first 10 posts of the destinated author.
-func GetIndexByAuthorBy(index int, autho string, sql *xorm.Engine) (*[]PostDb, bool) {
-	var datas []PostDb
+//GetIndexByAuthorBy gets index of the first 10 posts of the destine author.
+func GetIndexByAuthorBy(index int, author string, sql *xorm.Engine) (*[]PostDb, bool) {
+	var arrPostDb []PostDb
 	if index > 0 {
-		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Author: autho});
-			err == nil && len(datas) != 0 {
-			return &datas, true
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&arrPostDb, &PostDb{Author: author}); err == nil && len(arrPostDb) != 0 {
+			return &arrPostDb, true
 		}
 	}
 	return nil, false
@@ -119,6 +118,7 @@ func GetPost(id int, sql *xorm.Engine) (*PostDb, bool) {
 	return &PostDb{}, false
 }
 
+//SetPost updates post from PostDb.
 func SetPost(id int, post *PostDb, sql *xorm.Engine) bool {
 	_, err := sql.ID(id).Update(post)
 	return err == nil

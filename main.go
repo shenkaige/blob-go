@@ -1,11 +1,11 @@
 package main
 
 import (
+	"flag"
 	"github.com/blob-go/blob-go/admin"
 	"github.com/blob-go/blob-go/db"
 	"github.com/blob-go/blob-go/index"
 	"github.com/blob-go/blob-go/post"
-	"flag"
 	"github.com/go-xorm/xorm"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/cache"
@@ -20,7 +20,7 @@ var themeDic = "./usr/themes/rbreaker/"
 
 func main() {
 	var devMode = flag.Bool("dev", false, "Enable dev mode")
-	var cache = flag.Bool("cache", false, "Enable iris cache")
+	var isCache = flag.Bool("cache", false, "Enable iris cache")
 	var port = flag.String("port", "8080", "the port blob listens")
 	flag.Parse()
 
@@ -60,20 +60,20 @@ func main() {
 	app.RegisterView(tmpl)
 	app.StaticWeb("/assets/css", themeDic+"assets/css")
 	app.StaticWeb("/assets/js", themeDic+"assets/js")
-	if *cache {
+	if *isCache {
 		mvc.New(app.Party("/post").Layout("shared/main.html")).
-			Register(sql).Configure(cacheConf).Handle(new(post.PostController))
+			Register(sql).Configure(cacheConf).Handle(new(post.Controller))
 		mvc.New(app.Party("/admin").Layout("shared/admin.html")).
-			Register(sql, session).Handle(new(admin.AdminController))
+			Register(sql, session).Handle(new(admin.Controller))
 		mvc.New(app.Party("/").Layout("shared/main.html")).
-			Register(sql).Configure(cacheConf).Handle(new(index.IndexController))
+			Register(sql).Configure(cacheConf).Handle(new(index.Controller))
 	} else {
 		mvc.New(app.Party("/post").Layout("shared/main.html")).
-			Register(sql).Handle(new(post.PostController))
+			Register(sql).Handle(new(post.Controller))
 		mvc.New(app.Party("/admin").Layout("shared/admin.html")).
-			Register(sql, session).Handle(new(admin.AdminController))
+			Register(sql, session).Handle(new(admin.Controller))
 		mvc.New(app.Party("/").Layout("shared/main.html")).
-			Register(sql).Handle(new(index.IndexController))
+			Register(sql).Handle(new(index.Controller))
 	}
 
 	app.Run(iris.Addr(":"+*port), iris.WithOptimizations)
