@@ -1,17 +1,27 @@
 package admin
 
+/* Notes:
+I renamed the "main.go"s to "$subpackage_name$.go".
+Because:
+On subpackages instead of 'main.go', use the package name as the 'root'
+of the subpackage, i.e "admin/admin.go" instead of "admin/main.go".
+*/
+
 import (
 	"encoding/hex"
+	"html/template"
+	"strings"
+
+	"golang.org/x/crypto/sha3"
+
 	"github.com/blob-go/blob-go/db"
 	"github.com/blob-go/blob-go/index"
 	"github.com/blob-go/blob-go/post"
 	"github.com/go-xorm/xorm"
+
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 	"github.com/kataras/iris/sessions"
-	"golang.org/x/crypto/sha3"
-	"html/template"
-	"strings"
 )
 
 var fzfResp = mvc.Response{Code: 404}

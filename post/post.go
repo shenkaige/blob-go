@@ -1,11 +1,13 @@
 package post
 
 import (
+	"html/template"
+
 	"github.com/blob-go/blob-go/db"
 	"github.com/go-xorm/xorm"
-	"github.com/kataras/iris/mvc"
 	"gopkg.in/russross/blackfriday.v2"
-	"html/template"
+
+	"github.com/kataras/iris/mvc"
 )
 
 var fzfResp = mvc.Response{Code: 404}
@@ -15,9 +17,11 @@ type Controller struct {
 	SQL *xorm.Engine
 }
 
+var redirectToIndex = mvc.Response{Path: "/"}
+
 //Get is the function when /post/ is called.
 func (c *Controller) Get() mvc.Result {
-	return mvc.Response{Path: "/"}
+	return redirectToIndex
 }
 
 //GetBy is the function when /post/<id> is called.

@@ -1,5 +1,9 @@
 package db
 
+/* Notes:
+Rename 'Id' to 'ID' for best practises if you want.
+*/
+
 //CoreDb defines the structure of core_db.
 type CoreDb struct {
 	Id       int `xorm:"pk"`

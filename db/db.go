@@ -2,8 +2,9 @@ package db
 
 import (
 	"errors"
+
 	"github.com/go-xorm/xorm"
-	_ "github.com/mattn/go-sqlite3"//Imports package necessary for xorm.
+	_ "github.com/mattn/go-sqlite3" //Imports package necessary for xorm.
 )
 
 //NewDb creates a new database with chosen dialect.

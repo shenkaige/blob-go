@@ -3,6 +3,7 @@ package index
 import (
 	"github.com/blob-go/blob-go/db"
 	"github.com/go-xorm/xorm"
+
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/mvc"
 )
@@ -34,9 +35,11 @@ func (c *Controller) GetBy(pageID int) mvc.Result {
 	return fzfResp
 }
 
+var redirectToIndex = mvc.Response{Path: "/"}
+
 //GetCategory is the function when /category/ is called.
 func (c *Controller) GetCategory() mvc.Result {
-	return mvc.Response{Path: "/"}
+	return redirectToIndex
 }
 
 //GetCategoryBy is the function when /category/<string> is called.
@@ -60,7 +63,7 @@ func (c *Controller) GetCategoryByBy(category string, pageID int) mvc.Result {
 
 //GetAuthor is the function when /author/ is called.
 func (c *Controller) GetAuthor() mvc.Result {
-	return mvc.Response{Path: "/"}
+	return redirectToIndex
 }
 
 //GetAuthorBy is the function when /author/<string> is called.
