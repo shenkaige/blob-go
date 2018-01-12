@@ -77,8 +77,11 @@ func AuthUserID(userid int, hash string, sql *xorm.Engine) (bool, error) {
 //GetIndexBy gets index of the first 10 posts.
 func GetIndexBy(index int, sql *xorm.Engine) (*[]PostDb, bool) {
 	var datas []PostDb
-	if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas); err == nil && len(datas) != 0 {
-		return &datas, true
+	if index > 0 {
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas);
+			err == nil && len(datas) != 0 {
+			return &datas, true
+		}
 	}
 	return nil, false
 }
@@ -86,8 +89,11 @@ func GetIndexBy(index int, sql *xorm.Engine) (*[]PostDb, bool) {
 //GetIndexByCategoryBy gets index of the first 10 posts of the destinated category.
 func GetIndexByCategoryBy(index int, categ string, sql *xorm.Engine) (*[]PostDb, bool) {
 	var datas []PostDb
-	if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Category: categ}); err == nil && len(datas) != 0 {
-		return &datas, true
+	if index > 0 {
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Category: categ});
+			err == nil && len(datas) != 0 {
+			return &datas, true
+		}
 	}
 	return nil, false
 }
@@ -95,8 +101,11 @@ func GetIndexByCategoryBy(index int, categ string, sql *xorm.Engine) (*[]PostDb,
 //GetIndexByAuthorBy gets index of the first 10 posts of the destinated author.
 func GetIndexByAuthorBy(index int, autho string, sql *xorm.Engine) (*[]PostDb, bool) {
 	var datas []PostDb
-	if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Author: autho}); err == nil && len(datas) != 0 {
-		return &datas, true
+	if index > 0 {
+		if err := sql.Desc("id").Limit(10, 10*(index-1)).Find(&datas, &PostDb{Author: autho});
+			err == nil && len(datas) != 0 {
+			return &datas, true
+		}
 	}
 	return nil, false
 }
